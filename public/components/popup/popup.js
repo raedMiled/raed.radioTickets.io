@@ -1,0 +1,7 @@
+(function($){$.fn.popupwindow=function(p)
+{$("body").on("click",".qt-popupwindow",function(e){e.preventDefault();var settings,parameters,mysettings,b,a,winObj;var btn=$(this),destination=btn.attr("href"),name=btn.attr("data-name"),width=btn.attr("data-width"),height=btn.attr("data-height");settings={height:600,width:600,toolbar:0,scrollbars:0,status:0,resizable:1,left:0,top:0,center:0,createnew:1,location:0,menubar:0,onUnload:null};if(width){settings.width=width;}
+if(height){settings.height=height;}
+if(settings.center==1)
+{settings.top=(screen.height-(settings.height+110))/2;settings.left=(screen.width-settings.width)/2;}
+parameters="location="+settings.location+",menubar="+settings.menubar+",height="+settings.height+",width="+settings.width+",toolbar="+settings.toolbar+",scrollbars="+settings.scrollbars+",status="+settings.status+",resizable="+settings.resizable+",left="+settings.left+",screenX="+settings.left+",top="+settings.top+",screenY="+settings.top;winObj=window.open(destination,name,parameters);if(settings.onUnload){unloadInterval=setInterval(function(){if(!winObj||winObj.closed){clearInterval(unloadInterval);settings.onUnload.call($(this));}},500);}
+return false;});};})(jQuery);
