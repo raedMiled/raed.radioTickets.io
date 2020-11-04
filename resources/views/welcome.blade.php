@@ -1,1 +1,1 @@
-@extends('testLogin1')
+@extends('test')

@@ -25,6 +25,13 @@
 
 <link rel="stylesheet" href="/css/qt-typography.css">
     <link rel="shortcut icon" type="image/png" href="/imagestemplate/radio-logo-icon.png">
+    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+
+
+  <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -40,15 +47,18 @@
 
     <!-- Styles
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet"> -->
-    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
-
-  <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+    
 
   <style>
+        
+        .pht {
+            height: 150px;
+            margin-left:100px
+        }
+        .qt-input-l {
+            color: black;
+        }
+
         .alert {
             position: relative;
             padding: 0.75rem 1.25rem;
@@ -82,7 +92,15 @@
 
 <ul class="qt-desktopmenu hide-on-xl-and-down">
 <li class="qt-logo-link"><a href="/home" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
-
+@can('approve_request')
+<li ><a href="/home/admin">Administrator</a>
+<ul>
+<li><a href="/home/admin/users">Users</a></li>
+<li><a href="/home/admin/events">Approve Events</a></li>
+<li><a href="/home/admin/deals">Approve Deals</a></li>
+</ul>
+</li>
+@endcan
 <li><a href="/home/event">Events</a>
 <ul>
 <li><a href="/home/events">My Events</a></li>
@@ -135,6 +153,15 @@
 <div id="qt-mobile-menu" class="side-nav qt-content-primary">
 <ul class=" qt-side-nav">
 <li><a href="/home">Home</a></li>
+@can('approve_request')
+<li class="menu-item-has-children"><a href="/home/admin">Administrator</a>
+<ul>
+<li><a href="/home/admin/users">Users</a></li>
+<li><a href="/home/admin/events">Approve Events</a></li>
+<li><a href="/home/admin/deals">Approve Deals</a></li>
+</ul>
+</li>
+@endcan
 <li class="menu-item-has-children"><a href="/home/event">Events</a>
 <ul>
 <li><a href="/home/events">My Events</a></li>
@@ -179,19 +206,22 @@
 
 <div id="qtsearchbar" class="qt-searchbar qt-content-primary qt-expandable">
 <div class="qt-expandable-inner">
-<form method="post" action="#search" class="qt-inline-form">
-<div class="row qt-nopadding">
-<div class="col s12 m8 l9">
-<input placeholder="Search" value="" id="searchtex" type="text" class="validate qt-input-l">
-</div>
-<div class="col s12 m3 l2">
-<input type="button" value="Search" class="qt-btn qt-btn-primary qt-btn-l qt-fullwidth">
-</div>
-<div class="col s12 m1 l1">
-<a href="#!" class="qt-btn qt-btn-l qt-btn qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
-</div>
-</div>
-</form>
+<form method="POST" action="{{ route('search.event') }}" class="qt-inline-form">
+            @csrf
+            <div class="row qt-nopadding">
+                <div class="col s12 m8 l9">
+                    <input placeholder="Search : name, date, categorie, address" value="" id="searchtex" type="text" class="validate qt-input-l" name="q">
+                </div>
+                <div class="col s12 m3 l2">
+                    <button type="submit" value="" class="qt-btn qt-btn-primary qt-btn-l qt-fullwidth">
+                        Search
+                    </button>
+                </div>
+                <div class="col s12 m1 l1">
+                    <a href="#!" class="qt-btn qt-btn-l qt-btn qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
+                </div>
+            </div>
+        </form>
 </div>
 </div>
 
@@ -245,7 +275,7 @@
 <div class="col s12 m12 l8">
 <div class="qt-the-content">
 <a href="/storage/images/{{$event->poster}}" target="_blank">
-<img src="/storage/images/{{$event->poster}}" alt="Header image" width="600" height="10" class="qt-img-responsive">
+<img src="/storage/images/{{$event->poster}}" alt="Header image" width="1200" height="525" class="qt-img-responsive">
 </a>
 <table class="table qt-eventtable ">
 <tbody>
@@ -266,17 +296,25 @@
 </table>
 <div class="qt-content">
     @can('show-event', $event)
-                 
-                    <div class="row">
-                        <a class="qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" href="{{route('edit.event', ['event' => $event->id])}}">update event</a>
-                       
-                        <button class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light remove-event" data-id="{{ $event->id }}" data-action="{{route('delete.event',  ['event' => $event->id])}}"> Delete Event</button>
-                    </div>   
-                      <!--<form method="POST" id="delete-event" action="{{route('delete.event',  ['event' => $event->id])}}">
+    
+    <table class="table qt-eventtable ">
+        <tr>       
+                    
+                        <a class="qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" href="{{route('list.event', ['event' => $event->id])}}">reservation list</a>
+
+                        <a class="qt-btn qt-btn-l qt-btn-secondary qt-spacer-m waves-effect waves-light" href="{{route('edit.event', ['event' => $event->id])}}">update event</a>
+
+                        <form method="POST" id="delete-event" action="{{route('delete.event',  ['event' => $event->id])}}">
                             @csrf
                             @method('DELETE')
-                            <button  type="submit" class="btn btn-danger btn-circled" onclick="return confirm('Sure Want Delete?')" >delete event</button>
-                            </form> --> 
+                            <button  type="submit" class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light" onclick="return confirm('Sure Want Delete?')" >delete event</button>
+                            </form>
+
+                       <!-- <button class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light remove-event" data-id="{{ $event->id }}" data-action="{{route('delete.event',  ['event' => $event->id])}}"> Delete Event</button>-->
+                     
+                    </tr>
+                </table> 
+                      
                     
                     @endcan
                    @can('show-reservation-button', $event)
@@ -303,6 +341,8 @@
 
 </div>
 </div>
+
+
 
 <div class="col s12 m3 l12">
     <div class="qt-widget">
@@ -336,34 +376,10 @@
     <div class="qt-container">
         <div class="row">
             <div class="col s12 m12 l8">
-                Copyright 2020   <a href="http://digikod.com/">digikod.com</a>| Radio  Tickets website
-                <ul class="qt-menu-footer qt-small qt-list-chevron ">
-                    <div class="col s12 m3 l3">
-                        <div class="qt-widget">
-                            <h5 class="qt-caption-small">Contacts</h5>
-                            <div class="qt-widget-contacts">
-                                <p>
-                                    <i class="qticon-home"></i><a href="http://digikod.com/">www.digikod.com</a>
-                                </p>
-                                <p>
-                                    <i class="qticon-at-sign"></i><a href="mailto:digikodnetwork@gmail.com">digikodnetwork@gmail.com</a>
-                                </p>
-                                <p>
-                                    <i class="qticon-phone"></i><a href="tel:1-847-555-5555">1-847-555-5555</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-</div>
-                <div class="col s12 m12 l4">
-                    <ul class="qt-menu-social">
-
-                        <li class="right"><a href="#"><i class="qticon-facebook"></i></a></li>
-                        <li class="right"><a href="#"><i class="qticon-instagram"></i></a></li>
-                    </ul>
+                RadioTickets Website | Powered By <a href="http://digikod.com/">digikod.com</a> Copyright 2020 All Rights Reserved
                 
             </div>
+               
         </div>
     </div>
 </div>
@@ -433,9 +449,6 @@
 <script src="/components/popup/popup.js"></script>
 
 <script src="/js/qt-main.js"></script>
-</body>
-
-</html>
 <script type="text/javascript">
   $("body").on("click",".remove-event",function(){
     var current_object = $(this);
@@ -463,12 +476,11 @@
     });
 });
 </script>
+</body>
+
+</html>
+
 
 
     
         
-</body>
-
-
-<!-- Mirrored from demos.distinctivepixels.com/templates/milea/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Jul 2020 11:19:11 GMT -->
-</html>

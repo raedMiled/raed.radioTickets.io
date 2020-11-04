@@ -209,7 +209,7 @@ Deals
                 
                 
 
-                       
+@if(isset($details))                    
                    
                     
                         <div class="qt-container qt-vertical-padding-m qt-archive-events">
@@ -254,6 +254,9 @@ Deals
                             </div>
                             @endforeach
                         </div>
+                        @elseif(isset($message)) 
+                            <p class="pht">{{$message}}</p>
+                        @endif    
                             
                            
                             
@@ -272,9 +275,6 @@ Deals
         </div>
     </div>
 </div>
-
-                
-
 
 
 

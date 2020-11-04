@@ -25,7 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $event = Event::latest("updated_at")->get();
+        $event = Event::where('approve','1')->latest("updated_at")->get();
         return view('home', [
             'events' => $event
         ]);

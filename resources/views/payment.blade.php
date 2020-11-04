@@ -91,14 +91,14 @@
 <nav class="qt-menubar nav-wrapper qt-content-primary ">
 
 <ul class="qt-desktopmenu hide-on-xl-and-down">
-<li class="qt-logo-link"><a href="/" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
+<li class="qt-logo-link"><a href="/home" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
 
 
 </ul>
 
    
 <ul class="qt-desktopmenu hide-on-xl-only ">
-<li><a href="/" class="brand-logo qt-logo-text">Radio Tickets</a></li>
+<li><a href="/home" class="brand-logo qt-logo-text">Radio Tickets</a></li>
 </ul>
 
 </nav>
@@ -110,14 +110,24 @@
     
                 
                     <div id="booking" class="section qt-section-booking qt-card">
+                    
                         <div class="qt-valign-wrapper">
+                        
                             <div class="qt-valign flow-text">
-                                <div class="qt-booking-form" data-100p-top="opacity:0;" data-80p-top="opacity:0;" data-30p-top="opacity:1;">                                       
+                              
+                                <div class="qt-booking-form" data-100p-top="opacity:0;" data-80p-top="opacity:0;" data-30p-top="opacity:1;">  
+                                                                       
                                     <ul class="tabs">                      
                                         <li class="tab col s4">
                                             <h5><a  class="active">SUBSCRIPTION PAYMENT</a></h5>
                                         </li>
                                     </ul>
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <label  >{{ __('if you wish to have all the services that our web site provides and be able to postulate your own events and deals.') }}
+                                                {{ __('You must first pay for a subscription') }},</label>
+                                        </div>
+                                    </div>
                                     
                                     <div class="row">
                                         @if (session('status'))
@@ -129,7 +139,7 @@
                                         <div class="input-field col s12">
                                             <select name="plan"  id="subscription-plan" disabled>
                                                 @foreach($plans as $key=>$plan)
-                                                    <option value="{{$key}}">{{$plan}}</option>
+                                                    <option value="{{$key}}">{{$plan}} 30€</option>
                                                 @endforeach
                                             </select>
                                         </div>

@@ -59,14 +59,32 @@
 <nav class="qt-menubar nav-wrapper qt-content-primary ">
 
 <ul class="qt-desktopmenu hide-on-xl-and-down">
-<li class="qt-logo-link"><a href="/" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
-
-<li><a href="/eventPage">Events</a>
-<li><a href="/dealPage">Deals</a>
+<li class="qt-logo-link"><a href="/home" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
+@can('approve_request')
+<li><a href="/home/admin">Administrator</a>
+<ul>
+<li><a href="/home/admin/users">Users</a></li>
+<li><a href="/home/admin/events">Approve Events</a></li>
+<li><a href="/home/admin/deals">Approve Deals</a></li>
+</ul>
+</li>
+@endcan
+<li><a href="/home/event">Events</a>
+<ul>
+<li><a href="/home/events">My Events</a></li>
+<li><a href="/home/events/create">Create Event</a></li>
+</ul>
+</li>
+<li><a href="/home/deal">Deals</a>
+<ul>
+<li><a href="/home/deals">My Deals</a></li>
+<li><a href="/home/deals/create">Create Deal</a></li>
+</ul>
+</li>
 </li>
 
 
-    <li class="right"><a  data-expandable="#qtsearchbar" class="qt-btn qt-btn-l qt-scrolltop"><i class="icon dripicons-search"></i></a></li>
+    <li class="right"><button  data-expandable="#qtsearchbar" class="qt-btn qt-btn-l qt-scrolltop"><i class="icon dripicons-search"></i></a></li>
     <li class="right"><a  class="button-playlistswitch" data-activates="channelslist"><i class="icon dripicons-media-play"></i> Listen</a></li>
     @guest
            
@@ -95,17 +113,34 @@
 </ul>
 <ul class="qt-desktopmenu hide-on-xl-only ">
 <li><a href="#" data-activates="qt-mobile-menu" class="button-collapse qt-menu-switch qt-btn qt-btn-primary qt-btn-m"><i class="dripicons-menu"></i></a></li>
-<li><a href="/" class="brand-logo qt-logo-text">Radio Tickets</a></li>
+<li><a href="/home" class="brand-logo qt-logo-text">Radio Tickets</a></li>
 </ul>
 
 </nav>
 
 <div id="qt-mobile-menu" class="side-nav qt-content-primary">
 <ul class=" qt-side-nav">
-<li><a href="/">Home</a></li>
-<li ><a href="/eventPage">Events</a>
+<li><a href="/home">Home</a></li>
+@can('approve_request')
+<li class="menu-item-has-children"><a href="/home/admin">Administrator</a>
+<ul>
+<li><a href="/home/admin/users">Users</a></li>
+<li><a href="/home/admin/events">Approve Events</a></li>
+<li><a href="/home/admin/deals">Approve Deals</a></li>
+</ul>
 </li>
-<li ><a href="/dealPage">Deals</a>
+@endcan
+<li class="menu-item-has-children"><a href="/home/event">Events</a>
+<ul>
+<li><a href="/home/events">My Events</a></li>
+<li><a href="/home/events/create">Create Event</a></li>
+</ul>
+</li>
+<li class="menu-item-has-children"><a href="/home/deal">Deals</a>
+<ul>
+<li><a href="/home/deals">My Deals</a></li>
+<li><a href="/home/deals/create">Create Deal</a></li>
+</ul>
 </li>
 </ul>
 </div>
@@ -138,8 +173,8 @@
 </ul>
 
 <div id="qtsearchbar" class="qt-searchbar qt-content-primary qt-expandable">
-<div class="qt-expandable-inner">
-<form method="POST" action="{{ route('searchGuest') }}" class="qt-inline-form">
+    <div class="qt-expandable-inner">
+        <form method="POST" action="{{ route('search.event') }}" class="qt-inline-form">
             @csrf
             <div class="row qt-nopadding">
                 <div class="col s12 m8 l9">
@@ -155,7 +190,7 @@
                 </div>
             </div>
         </form>
-</div>
+    </div>
 </div>
 <div class="qt-slickslider-container">
 <div class="qt-slickslider qt-slickslider-single qt-text-shadow qt-black-bg" data-variablewidth="true" data-arrows="true" data-dots="true" data-infinite="true" data-centermode="true" data-pauseonhover="true" data-autoplay="true" data-arrowsmobile="false" data-centermodemobile="true" data-dotsmobile="true" data-variablewidthmobile="true">
@@ -163,24 +198,24 @@
 
 <div class="qt-slick-opacity-fx qt-item"> 
     
-<div class="qt-pageheader qt-content-primary qt-section">
-<div class="qt-container">
-<h1 class="qt-caption qt-spacer-s">
-Events
+    <div class="qt-pageheader qt-content-primary qt-section">
+        <div class="qt-container">
+            
+                <h1 class="qt-caption qt-spacer-s">
+                    
+                    Events
+                </h1>
+        
+            <div class="qt-the-content qt-spacer-s small hide-on-med-and-down ">
+                <p><a href="/home/event" class="qt-btn qt-btn-l qt-btn-primary "><i class="dripicons-align-justify"></i></a></p>
+            </div>
+        </div>
 
-</h1>
-<div class="qt-the-content qt-spacer-s small hide-on-med-and-down ">
-<p>
-<a href="/eventPage" class="qt-btn qt-btn-l qt-btn-primary "><i class="dripicons-align-justify"></i></a>
-</p>
-</div>
-</div>
+        <div class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg">
+            <img src="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg" alt="Featured image" width="1600" height="530">
+        </div>
 
-<div class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg">
-<img src="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg" alt="Featured image" width="1600" height="530">
-</div>
-
-</div>
+    </div>
 
 </div>
 
@@ -193,7 +228,7 @@ Deals
 </h1>
 <div class="qt-the-content qt-spacer-s small hide-on-med-and-down ">
 <p>
-<a href="/dealPage" class="qt-btn qt-btn-l qt-btn-primary "><i class="dripicons-align-justify"></i></a>
+<a href="/home/deal" class="qt-btn qt-btn-l qt-btn-primary "><i class="dripicons-align-justify"></i></a>
 </p>
 </div>
 </div>
@@ -203,13 +238,14 @@ Deals
 </div>
 </div>
 </div>
-</div> 
+</div>
+         
 
 <hr class="qt-spacer-s"> 
                 
                 
 
-                       
+@if(isset($details))                       
                    
                     
                         <div class="qt-container qt-vertical-padding-m qt-archive-events">
@@ -236,13 +272,13 @@ Deals
                                                         <div class="qt-vi">
                                                             <h5 class="qt-spacer-xs">{{$event->address}}</h5>
                                                             <h3 class="qt-spacer-xs qt-ellipsis qt-t qt-title">
-                                                                <a href="{{route('show.event', ['event' => $event->id])}}" class="qt-text-shadow">{{$event -> name}}</a>
+                                                                <a href="{{route('showClient.event', ['event' => $event->id])}}" class="qt-text-shadow">{{$event -> name}}</a>
                                                             </h3>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col s12 m2">
-                                                    <a href="{{route('show.event', ['event' => $event->id])}}" class="qt-btn qt-btn-primary bottom right"><i class="dripicons-plus"></i></a>
+                                                    <a href="{{route('showClient.event', ['event' => $event->id])}}" class="qt-btn qt-btn-primary bottom right"><i class="dripicons-plus"></i></a>
                                                 </div>
                                             </div>
                                         </div>
@@ -254,7 +290,9 @@ Deals
                             </div>
                             @endforeach
                         </div>
-                            
+                        @elseif(isset($message)) 
+                            <p class="pht">{{$message}}</p>
+                        @endif                        
                            
                             
                       
@@ -272,11 +310,6 @@ Deals
         </div>
     </div>
 </div>
-
-                
-
-
-
 
    
    

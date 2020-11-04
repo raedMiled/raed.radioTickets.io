@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Reservation;
+use App\User;
 
 use App\Mail\EventTicket;
 
@@ -23,27 +25,51 @@ class EventsController extends Controller
 
 
     public function index(){
-        $event = Event::latest()->get();
+        $event = Event::latest("updated_at")->get();
     
        
     return view('events.index', [
         'events' => $event
     ]);
     }
+    public function list($id){
+        $event = Event::find($id);
+        $reservation = Reservation::where('event_id',$event->id)->latest()->get();
+        
+        
+        return view('events.showReservations', [
+            'event' => $event,
+            'reservations' => $reservation
+        ]);
+
+    }
+    public function indexAlll($id){
+        
+        $event1 = Event::latest("updated_at")->take(3)->get();
+        $event = Event::find($id);
+        return view('welcome', [
+            'event' => $event,
+            'events' => $event1
+        ]);
+
+        
+       
+
+    }
     public function indexAll(){
-        $event = Event::latest("updated_at")->get();
+        $event = Event::where('approve','1')->latest("updated_at")->get();
         return view('eventPage', [
             'events' => $event
         ]);
     }
     public function indexHome(){
-        $event = Event::latest("updated_at")->get();
+        $event = Event::where('approve','1')->latest("updated_at")->get();
         return view('homePage', [
             'events' => $event
         ]);
     }
     public function indexPage(){
-        $event = Event::latest("updated_at")->get();
+        $event = Event::where('approve','1')->latest("updated_at")->get();
         return view('event', [
             'events' => $event
         ]);
@@ -76,6 +102,9 @@ class EventsController extends Controller
             return back()
             ->with('message','email sent');
 
+        
+        
+
     }
 
     public function indexReserveClient($id){
@@ -86,9 +115,25 @@ class EventsController extends Controller
 
     }
     public function storeReserveClient($id){
+        $reservation = new Reservation();
         $random = Str::random(10);
+        $event2 = Event::find($id)->reservation();
         $event = Event::find($id);
+        //request()->validate(['email' => 'required|email']);
+       // $reservation->event_id = auth()->user()->event()->id();
        request()->validate(['email' => 'required|email']);
+       $reservation->email = request('email');
+       //
+       $event2->save($reservation);
+      //$reservation->save();
+      /* $validateAtributes = request()->validate([
+            
+        'email' => 'required|email'
+    ]);
+    
+    //return $validateAtributes;
+    
+    Reservation::create($validateAtributes);*/
 
        Mail::to(request('email'))
             ->send(new EventTicket($event,$random));
@@ -100,14 +145,7 @@ class EventsController extends Controller
 
     }
 
-    public function indexAlll(){
-        $data = [
-            'intent' => auth()->user()->createSetupIntent()
-        ];
-        
-        return view('welcome')->with($data);
-
-    }
+    
     
 
     public function store(Request $request){
@@ -254,9 +292,17 @@ class EventsController extends Controller
        
         return redirect('/home');
     }
+    public function approve($id)
+    {
+        $event= Event::find($id);
+        $event->approve = true;
+        $event->save();
+       
+        return redirect('/home');
+    }
 
     public function show($id){
-        $event1 = Event::latest("updated_at")->take(3)->get();
+        $event1 = Event::where('approve','1')->latest("updated_at")->take(3)->get();
         $event = Event::find($id);
         return view('events.show', [
             'event' => $event,
@@ -267,7 +313,7 @@ class EventsController extends Controller
     }
 
     public function showClient($id){
-        $event1 = Event::latest("updated_at")->take(3)->get();
+        $event1 = Event::where('approve','1')->latest("updated_at")->take(3)->get();
         $event = Event::find($id);
         return view('events.showClient', [
             'event' => $event,

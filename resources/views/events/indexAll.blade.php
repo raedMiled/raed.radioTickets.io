@@ -40,6 +40,16 @@
 
     <!-- Styles
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    <style>
+        
+        .pht {
+            height: 150px;
+            margin-left:100px
+        }
+        .qt-input-l {
+            color: black;
+        }
+</style>
 
 </head>
 
@@ -130,19 +140,22 @@
 
 <div id="qtsearchbar" class="qt-searchbar qt-content-primary qt-expandable">
 <div class="qt-expandable-inner">
-<form method="post" action="#search" class="qt-inline-form">
-<div class="row qt-nopadding">
-<div class="col s12 m8 l9">
-<input placeholder="Search" value="" id="searchtex" type="text" class="validate qt-input-l">
-</div>
-<div class="col s12 m3 l2">
-<input type="button" value="Search" class="qt-btn qt-btn-primary qt-btn-l qt-fullwidth">
-</div>
-<div class="col s12 m1 l1">
-<a href="#!" class="qt-btn qt-btn-l qt-btn-secondary qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
-</div>
-</div>
-</form>
+<form method="POST" action="{{ route('search.event') }}" class="qt-inline-form">
+            @csrf
+            <div class="row qt-nopadding">
+                <div class="col s12 m8 l9">
+                    <input placeholder="Search : name, date, categorie, address" value="" id="searchtex" type="text" class="validate qt-input-l" name="q">
+                </div>
+                <div class="col s12 m3 l2">
+                    <button type="submit" value="" class="qt-btn qt-btn-primary qt-btn-l qt-fullwidth">
+                        Search
+                    </button>
+                </div>
+                <div class="col s12 m1 l1">
+                    <a href="#!" class="qt-btn qt-btn-l qt-btn-secondary qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
+                </div>
+            </div>
+        </form>
 </div>
 </div>
 <div class="qt-pageheader qt-content-primary qt-section">
@@ -188,7 +201,7 @@ Events
                                                         <div class="qt-vi">
                                                             <h5 class="qt-spacer-xs">{{$event->address}}</h5>
                                                             <h3 class="qt-spacer-xs qt-ellipsis qt-t qt-title">
-                                                                <a href="#" class="qt-text-shadow">{{$event -> name}}</a>
+                                                                <a href="{{route('showClient.event', ['event' => $event->id])}}" class="qt-text-shadow">{{$event -> name}}</a>
                                                             </h3>
                                                         </div>
                                                     </div>

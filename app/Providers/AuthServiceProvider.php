@@ -4,6 +4,10 @@ namespace App\Providers;
 
 use App\Event;
 use App\User;
+use App\Reservation;
+use App\Ability;
+use App\Role;
+
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
@@ -37,6 +41,22 @@ class AuthServiceProvider extends ServiceProvider
             if($user->id != $event->user_id)
             return  $event;
             
+        });
+
+        Gate::define('show-reservation-list',function($user,$reservation){
+            
+            return $reservation->user->is($user);
+            
+        });
+       /* Gate::define(function($user,$ability){
+            
+            return $user->abilities()->contains($ability);
+            
+        });*/
+        Gate::before(function ($user, $ability) {
+            if ($user->abilities()->contains($ability)) {
+                return true;   
+            }
         });
 
        

@@ -48,6 +48,30 @@
         .qt-input-l {
             color: black;
         }
+        
+        .alert {
+            position: relative;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+        }
+        .alert-success {
+            color: #1d643b;
+            background-color: #d7f3e3;
+            border-color: #c7eed8;
+        }
+        .alert-danger {
+            color: #761b18;
+            background-color: #f9d6d5;
+            border-color: #f7c6c5;
+        }
+        .qt-btn-secondary{
+            margin-left:30px
+        }
+       
+    
+
     </style>
 
 </head>
@@ -59,14 +83,32 @@
 <nav class="qt-menubar nav-wrapper qt-content-primary ">
 
 <ul class="qt-desktopmenu hide-on-xl-and-down">
-<li class="qt-logo-link"><a href="/" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
-
-<li><a href="/eventPage">Events</a>
-<li><a href="/dealPage">Deals</a>
+<li class="qt-logo-link"><a href="/home" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
+@can('approve_request')
+<li ><a href="/home/admin">Administrator</a>
+<ul>
+<li><a href="/home/admin/users">Users</a></li>
+<li><a href="/home/admin/events">Approve Events</a></li>
+<li><a href="/home/admin/deals">Approve Deals</a></li>
+</ul>
+</li>
+@endcan
+<li><a href="/home/event">Events</a>
+<ul>
+<li><a href="/home/events">My Events</a></li>
+<li><a href="/home/events/create">Create Event</a></li>
+</ul>
+</li>
+<li><a href="/home/deal">Deals</a>
+<ul>
+<li><a href="/home/deals">My Deals</a></li>
+<li><a href="/home/deals/create">Create Deal</a></li>
+</ul>
+</li>
 </li>
 
 
-    <li class="right"><a  data-expandable="#qtsearchbar" class="qt-btn qt-btn-l qt-scrolltop"><i class="icon dripicons-search"></i></a></li>
+    <li class="right"><button  data-expandable="#qtsearchbar" class="qt-btn qt-btn-l qt-scrolltop"><i class="icon dripicons-search"></i></a></li>
     <li class="right"><a  class="button-playlistswitch" data-activates="channelslist"><i class="icon dripicons-media-play"></i> Listen</a></li>
     @guest
            
@@ -95,17 +137,34 @@
 </ul>
 <ul class="qt-desktopmenu hide-on-xl-only ">
 <li><a href="#" data-activates="qt-mobile-menu" class="button-collapse qt-menu-switch qt-btn qt-btn-primary qt-btn-m"><i class="dripicons-menu"></i></a></li>
-<li><a href="/" class="brand-logo qt-logo-text">Radio Tickets</a></li>
+<li><a href="/home" class="brand-logo qt-logo-text">Radio Tickets</a></li>
 </ul>
 
 </nav>
 
 <div id="qt-mobile-menu" class="side-nav qt-content-primary">
 <ul class=" qt-side-nav">
-<li><a href="/">Home</a></li>
-<li ><a href="/eventPage">Events</a>
+<li><a href="/home">Home</a></li>
+@can('approve_request')
+<li class="menu-item-has-children"><a href="/home/admin">Administrator</a>
+<ul>
+<li><a href="/home/admin/users">Users</a></li>
+<li><a href="/home/admin/events">Approve Events</a></li>
+<li><a href="/home/admin/deals">Approve Deals</a></li>
+</ul>
 </li>
-<li ><a href="/dealPage">Deals</a>
+@endcan
+<li class="menu-item-has-children"><a href="/home/event">Events</a>
+<ul>
+<li><a href="/home/events">My Events</a></li>
+<li><a href="/home/events/create">Create Event</a></li>
+</ul>
+</li>
+<li class="menu-item-has-children"><a href="/home/deal">Deals</a>
+<ul>
+<li><a href="/home/deals">My Deals</a></li>
+<li><a href="/home/deals/create">Create Deal</a></li>
+</ul>
 </li>
 </ul>
 </div>
@@ -138,8 +197,8 @@
 </ul>
 
 <div id="qtsearchbar" class="qt-searchbar qt-content-primary qt-expandable">
-<div class="qt-expandable-inner">
-<form method="POST" action="{{ route('searchGuest') }}" class="qt-inline-form">
+    <div class="qt-expandable-inner">
+        <form method="POST" action="{{ route('search.event') }}" class="qt-inline-form">
             @csrf
             <div class="row qt-nopadding">
                 <div class="col s12 m8 l9">
@@ -155,110 +214,143 @@
                 </div>
             </div>
         </form>
-</div>
-</div>
-<div class="qt-slickslider-container">
-<div class="qt-slickslider qt-slickslider-single qt-text-shadow qt-black-bg" data-variablewidth="true" data-arrows="true" data-dots="true" data-infinite="true" data-centermode="true" data-pauseonhover="true" data-autoplay="true" data-arrowsmobile="false" data-centermodemobile="true" data-dotsmobile="true" data-variablewidthmobile="true">
-
-
-<div class="qt-slick-opacity-fx qt-item"> 
-    
-<div class="qt-pageheader qt-content-primary qt-section">
-<div class="qt-container">
-<h1 class="qt-caption qt-spacer-s">
-Events
-
-</h1>
-<div class="qt-the-content qt-spacer-s small hide-on-med-and-down ">
-<p>
-<a href="/eventPage" class="qt-btn qt-btn-l qt-btn-primary "><i class="dripicons-align-justify"></i></a>
-</p>
-</div>
-</div>
-
-<div class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg">
-<img src="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg" alt="Featured image" width="1600" height="530">
-</div>
-
-</div>
-
+    </div>
 </div>
 
 
-<div class="qt-slick-opacity-fx qt-item">
-<div class="qt-pageheader qt-content-primary qt-section">
-<div class="qt-container">
-<h1 class="qt-caption qt-spacer-s">
-Deals
-</h1>
-<div class="qt-the-content qt-spacer-s small hide-on-med-and-down ">
-<p>
-<a href="/dealPage" class="qt-btn qt-btn-l qt-btn-primary "><i class="dripicons-align-justify"></i></a>
-</p>
+<div class="qt-part-event-featured qt-card qt-negative qt-vertical-padding-l">
+<div class="qt-event-featured-content">
+<h1 class="qt-spacer-s">{{$event->name}}</h1><br>
+<h3 class="qt-caption qt-spacer-s">Time Remaining Before The Event</h3>
+<div class="qt-countdown-container">
+<div id="countdown" class="ClassyCountdownDemo qt-countdown" data-end="{{$event->date}} {{$event->time}}"></div>
 </div>
 </div>
-<div class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/shutterstock_177378965.jpg">
-<img src="/imagestemplate/full-1600-700/shutterstock_177378965.jpg" alt="Featured image" width="1600" height="530">
+<div class="qt-countdown-background">
+<div class="qt-header-bg" data-bgimage="/imagestemplate/large-1170-512/unsplash-28.jpg">
+<img src="/imagestemplate/large-1170-512/unsplash-28.jpg" alt="Featured image" width="690" height="302">
 </div>
 </div>
-</div>
-</div>
-</div> 
+</div>        
 
-<hr class="qt-spacer-s"> 
-                
-                
 
-                       
-                   
-                    
-                        <div class="qt-container qt-vertical-padding-m qt-archive-events">
+
+
+<div class="qt-container qt-vertical-padding-l">
+<div class="row">
+<div class="col s12 m12 l1 qt-pushpin-container">
+
+
+<ul class="qt-sharepage qt-content-primary">
+<li class="hide-on-med-and-down">
+<i class="qticon-share qt-shareicon qt-content-primary-dark"></i>
+</li>
+<li>
+<a class="qt-popupwindow qt-sharelink" data-sharetype="facebook" data-name="Share" data-width="600" data-height="500" target="_blank" href="">
+<i class="qticon-facebook"></i>
+</a>
+</li>
+<li>
+<a class="qt-popupwindow qt-sharelink" data-sharetype="twitter" data-name="Share" data-width="600" data-height="500" target="_blank" href="">
+<i class="qticon-twitter"></i>
+</a>
+</li>
+
+
+</ul>
+
+
+<hr class="qt-spacer-m">
+</div>
+
+
+<div class="col s12 m12 l8">
+<div class="qt-the-content">
+<a href="/storage/images/{{$event->poster}}" target="_blank">
+<img src="/storage/images/{{$event->poster}}" alt="Header image" width="600" height="450" class="qt-img-responsive">
+</a>
+<table class="table qt-eventtable ">
+<tbody>
+<tr>
+<th>Date:</th>
+<td>{{$event->date}}</td>
+</tr>
+<tr>
+<th>Time:</th>
+<td>{{$event->time}}</td>
+</tr>
+<tr>
+<th>Address:</th>
+<td> {{$event->address}}</td>
+</tr>
+<tr>
+</tbody>
+</table>
+@can('approve_request')
+<div class="qt-content">
+<table class="table qt-eventtable ">
+                    <tr>             
+                        <form method="POST" action="{{route('approve.event', ['event' => $event->id])}}">
+                            @csrf
                             
-
-                            @foreach($events as $event)
-                            <div class="qt-part-archive-item qt-item-event qt-negative qt-card-s" >
-                                <div class="qt-item-header">
-                                    <div class="qt-header-mid qt-vc">
-                                        <div class="qt-vi">
-                                            <div class="row">
-                                                <div class="col s12 m2">
-                                                    <h4 class="qt-date ">
-                                                            <span class="qt-month">
-                                                                {{$event -> time}}
-                                                            </span>
-                                                            <span class="day">
-                                                                {{$event -> date}}
-                                                            </span>
-                                                    </h4>
-                                                </div>
-                                                <div class="col s12 m8 qt-titles">
-                                                    <div class="qt-vc">
-                                                        <div class="qt-vi">
-                                                            <h5 class="qt-spacer-xs">{{$event->address}}</h5>
-                                                            <h3 class="qt-spacer-xs qt-ellipsis qt-t qt-title">
-                                                                <a href="{{route('show.event', ['event' => $event->id])}}" class="qt-text-shadow">{{$event -> name}}</a>
-                                                            </h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col s12 m2">
-                                                    <a href="{{route('show.event', ['event' => $event->id])}}" class="qt-btn qt-btn-primary bottom right"><i class="dripicons-plus"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="qt-header-bg" data-bgimage="/storage/images/{{$event -> poster}}">
-                                        <img src="/storage/images/{{$event -> poster}}" alt="Featured image" width="690" height="302">
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
                             
-                           
+                            <button  type="submit" class=" qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" >Approve event</button>
                             
+                            
+                        </form>
+                        <form method="POST" id="delete-event" action="{{route('delete.event',  ['event' => $event->id])}}">
+                            @csrf
+                            @method('DELETE')
+                            <button  type="submit" class="qt-btn qt-btn-l qt-btn-secondary qt-spacer-m waves-effect waves-light" onclick="return confirm('Sure Want Delete?')" >delete event</button>
+                            </form>
+                    </tr>
+</table>
                       
-             
+</div>
+@endcan
+
+</div>
+</div>
+
+<div class="qt-sidebar col s12 m12 l3">
+
+<div class="qt-widgets qt-sidebar-main qt-text-secondary row">
+<div class="col s12 m3 l12">
+<div class="qt-widget">
+<h5 class="qt-caption-small"><span>Description</span></h5> {{$event->description}}
+<hr class="qt-spacer-s">
+
+</div>
+</div>
+
+
+
+<div class="col s12 m3 l12">
+    <div class="qt-widget">
+        <h5 class="qt-caption-small"><span>Newest Events</span></h5>
+            <ul class="qt-widget-upcoming">
+            @foreach($events as $event1)
+                <li class="qt-card-s paper">
+                    <h5>
+                        <a href="{{route('showClient.event', ['event' => $event1->id])}}">{{$event1 -> name}}</a>
+                    </h5>
+                    <p>
+                        {{$event1 -> date}}
+                    </p>
+                    <img src="/storage/images/{{$event1 -> poster}}" alt="Show cover" width="200" height="110" class="right">
+                </li>
+                @endforeach
+            </ul>
+    </div>
+</div>
+
+
+</div>
+
+</div>
+</div>
+</div>
+
 
 
 <div class="qt-footer-bottom qt-content-primary-dark">
@@ -273,8 +365,6 @@ Deals
     </div>
 </div>
 
-                
-
 
 
 
@@ -283,7 +373,7 @@ Deals
                       
 
 <div id="channelslist" class="side-nav qt-content-primary qt-right-sidebar">
-<a class="qt-btn qt-btn-secondary button-playlistswitch-close qt-close-sidebar-right" data-activates="channelslist"><i class="icon dripicons-cross"></i></a>
+<a class="qt-btn qt-btn button-playlistswitch-close qt-close-sidebar-right" data-activates="channelslist"><i class="icon dripicons-cross"></i></a>
 
 <div id="qtplayercontainer" data-playervolume="true" data-accentcolor="#dd0e34" data-accentcolordark="#ff0442" data-textcolor="#ffffff" data-soundmanagerurl="./components/soundmanager/swf/" class="qt-playercontainer qt-playervolume qt-clearfix qt-content-primary">
 <div class="qt-playercontainer-content qt-vertical-padding-m">
@@ -340,15 +430,38 @@ Deals
 <script src="/components/popup/popup.js"></script>
 
 <script src="/js/qt-main.js"></script>
+<script type="text/javascript">
+  $("body").on("click",".remove-event",function(){
+    var current_object = $(this);
+    swal({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        type: "error",
+        showCancelButton: true,
+        dangerMode: true,
+        cancelButtonClass: '#DD6B55',
+        confirmButtonColor: '#dc3545',
+        confirmButtonText: 'Delete!',
+    },function (result) {
+        if (result) {
+            var action = current_object.attr('data-action');
+            var token = jQuery('meta[name="csrf-token"]').attr('content');
+            var id = current_object.attr('data-id');
+
+            $('body').html("<form class='form-inline remove-form' method='post' action='"+action+"'></form>");
+            $('body').find('.remove-form').append('<input name="_method" type="hidden" value="delete">');
+            $('body').find('.remove-form').append('<input name="_token" type="hidden" value="'+token+'">');
+            $('body').find('.remove-form').append('<input name="id" type="hidden" value="'+id+'">');
+            $('body').find('.remove-form').submit();
+        }
+    });
+});
+</script>
 </body>
 
 </html>
+
 
 
     
         
-</body>
-
-
-<!-- Mirrored from demos.distinctivepixels.com/templates/milea/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Jul 2020 11:19:11 GMT -->
-</html>

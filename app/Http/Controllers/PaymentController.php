@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\User;
+use App\Role;
 
 use Illuminate\Http\Request;
 
@@ -31,6 +33,9 @@ class PaymentController extends Controller
         //$planId = $request->plan;
         $planId = request('plan');
         $user->newSubscription('main', $planId)->create($paymentMethod);
+
+        $commerçant = Role::firstOrCreate(['name' => 'commerçant']);
+        $user->assignrole($commerçant);
 
         return response([
             'success_url'=> redirect()->intended('/home')->getTargetUrl(),

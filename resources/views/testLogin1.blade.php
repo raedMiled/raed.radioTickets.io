@@ -41,26 +41,15 @@
     <!-- Styles
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
     <style>
-        .alert {
-            position: relative;
-            padding: 0.75rem 1.25rem;
-            margin-bottom: 1rem;
-            border: 1px solid transparent;
-            border-radius: 0.25rem;
+        .pht {
+            height: 150px;
+            margin-left:100px
         }
-        .alert-success {
-            color: #1d643b;
-            background-color: #d7f3e3;
-            border-color: #c7eed8;
-        }
-        .alert-danger {
-            color: #761b18;
-            background-color: #f9d6d5;
-            border-color: #f7c6c5;
+        .qt-input-l {
+            color: black;
         }
     </style>
 
-<script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body data-spy="scroll" data-target=".fixed-top">
@@ -71,61 +60,167 @@
 
 <ul class="qt-desktopmenu hide-on-xl-and-down">
 <li class="qt-logo-link"><a href="/" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
+<li><a href="/eventPage">Users</a>
+<li><a href="/eventPage">Events</a>
+<li><a href="/dealPage">Deals</a>
+</li>
 
 
+    <li class="right"><a  data-expandable="#qtsearchbar" class="qt-btn qt-btn-l qt-scrolltop"><i class="icon dripicons-search"></i></a></li>
+    <li class="right"><a  class="button-playlistswitch" data-activates="channelslist"><i class="icon dripicons-media-play"></i> Listen</a></li>
+    @guest
+           
+        @if (Route::has('register'))
+            <li class="right"><a href="/register" class="button"> Register Now</a></li>
+            <li class="right"><a href="/login" class="button" > Login</a></li> 
+        @endif
+        @else
+            <li class="right">
+                <a >{{ Auth::user()->name }}</a>
+                <ul>
+                    <li><a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                    
+                </ul>
+            </li>
+    @endguest
+    
 </ul>
-
-   
 <ul class="qt-desktopmenu hide-on-xl-only ">
+<li><a href="#" data-activates="qt-mobile-menu" class="button-collapse qt-menu-switch qt-btn qt-btn-primary qt-btn-m"><i class="dripicons-menu"></i></a></li>
 <li><a href="/" class="brand-logo qt-logo-text">Radio Tickets</a></li>
 </ul>
 
 </nav>
 
+<div id="qt-mobile-menu" class="side-nav qt-content-primary">
+<ul class=" qt-side-nav">
+<li><a href="/">Home</a></li>
+<li ><a href="/eventPage">Users</a>
+</li>
+<li ><a href="/eventPage">Events</a>
+</li>
+<li ><a href="/dealPage">Deals</a>
+</li>
+</ul>
+</div>
 
 
+<ul class="qt-mobile-toolbar qt-content-primary-dark qt-content-aside hide-on-large-only">
+<li><a href="#!" data-expandable="#qtsearchbar" class="qt-scrolltop"><i class="icon dripicons-search"></i></a></li>
+<li><a href="#!" class="button-playlistswitch" data-activates="channelslist"><i class="icon dripicons-media-play"></i></a></li>
+@guest
+       
+        <li ><a href="/login" class="button" > Login</a></li> 
+        @if (Route::has('register'))
+            <li ><a href="/register" class="button"> Register Now</a></li>
+            
+        @endif
+        @else
+           
+                    <li><a href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </li>
+                    
+                
+    @endguest
+</ul>
+
+<div id="qtsearchbar" class="qt-searchbar qt-content-primary qt-expandable">
+<div class="qt-expandable-inner">
+<form method="POST" action="{{ route('searchGuest') }}" class="qt-inline-form">
+            @csrf
+            <div class="row qt-nopadding">
+                <div class="col s12 m8 l9">
+                    <input placeholder="Search : name, date, categorie, address" value="" id="searchtex" type="text" class="validate qt-input-l" name="q">
+                </div>
+                <div class="col s12 m3 l2">
+                    <button type="submit" value="" class="qt-btn qt-btn-primary qt-btn-l qt-fullwidth">
+                        Search
+                    </button>
+                </div>
+                <div class="col s12 m1 l1">
+                    <a href="#!" class="qt-btn qt-btn-l qt-btn-secondary qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
+                </div>
+            </div>
+        </form>
+</div>
+</div>
 
 <div class="qt-container qt-vertical-padding-l">
 <div class="row">
 <div class="col s12 m8 push-m2">             
                 
 
-<div id="booking" class="section qt-section-booking qt-card">
-<div class="qt-valign-wrapper">
-<div class="qt-valign flow-text">
-<div class="qt-booking-form" data-100p-top="opacity:0;" data-80p-top="opacity:0;" data-30p-top="opacity:1;">                                       
-<ul class="tabs">                      
-<li class="tab col s4">
-<h5><a  class="active">PAYMENT</a></h5></li>
+<div class="qt-vertical-padding-l qt-content-primary-dark qt-section">
+<div class="qt-container qt-negative">
+<h3 class="qt-caption-med"><span>admin dashboard</span></h3>
+<ul class="collapsible qt-chart-tracklist qt-spacer-m" data-collapsible="accordion">
+
+<li class="qt-part-chart qt-chart-track qt-negative qt-card-s">
+<div class="qt-chart-table collapsible-header qt-content-primary">
+
+<div class="qt-titles">
+<h3 class="qt-ellipsis qt-t">users</h3>
+</div>
+</div>
+<div class="collapsible-body qt-paper">
+<p>
+Lorem ipsum dolor sit amet.
+</p>
+</div>
+</li>
+
+
+<li class="qt-part-chart qt-chart-track qt-negative qt-card-s">
+<div class="qt-chart-table collapsible-header qt-content-primary">
+
+<div class="qt-titles">
+<h3 class="qt-ellipsis qt-t">events</h3>
+</div>
+</div>
+<div class="collapsible-body qt-paper">
+<p>
+Lorem ipsum dolor sit amet.
+</p>
+</div>
+</li>
+
+
+<li class="qt-part-chart qt-chart-track qt-negative qt-card-s">
+<div class="qt-chart-table collapsible-header qt-content-primary">
+
+<div class="qt-titles">
+<h3 class="qt-ellipsis qt-t">deals</h3>
+</div>
+</div>
+<div class="collapsible-body qt-paper">
+<p>
+Lorem ipsum dolor sit amet.
+</p>
+</div>
+</li>
+
 </ul>
-            <div class="row">
-                                        @if (session('status'))
-                                            <div class="alert alert-success" role="alert">
-                                                {{ session('status') }}
-                                            </div>
-                                        @endif
-                                        <div class="input-field col s12">
-                                        <input id="card-holder-name"  type="text">
-                                        </div>
-                                        <!-- Stripe Elements Placeholder -->
-                                        <div class="input-field col s12">
-                                        <div id="card-element" >
 
-                                        </div>
-                                        
-                                        <div class="input-field col s12">
+</div>
 
-                                            <button id="card-button" data-secret="{{ $intent->client_secret }}"class="qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light ">
-                                                Subscribe
-                                            </button>
-                                            </div>
-                                            </div>
-                                        </div>
-                                    </div>
 </div>
-</div>
-</div>
-</div>
+
+
 </div>
 </div>
 </div>
@@ -145,6 +240,37 @@
                       
 
 
+
+<div id="channelslist" class="side-nav qt-content-primary qt-right-sidebar">
+<a class="qt-btn qt-btn-secondary button-playlistswitch-close qt-close-sidebar-right" data-activates="channelslist"><i class="icon dripicons-cross"></i></a>
+
+<div id="qtplayercontainer" data-playervolume="true" data-accentcolor="#dd0e34" data-accentcolordark="#ff0442" data-textcolor="#ffffff" data-soundmanagerurl="./components/soundmanager/swf/" class="qt-playercontainer qt-playervolume qt-clearfix qt-content-primary">
+<div class="qt-playercontainer-content qt-vertical-padding-m">
+<div class="qt-playercontainer-header">
+<h5 class="qt-text-shadow small">Now on</h5>
+<h3 id="qtradiotitle" class="qt-text-shadow">STATION 1 RADIO</h3>
+
+</div>
+<div class="qt-playercontainer-musicplayer" id="qtmusicplayer">
+<div class="qt-musicplayer">
+<div class="ui360 ui360-vis qt-ui360">
+<a id="playerlink" href="http://freshly-ground.com/data/audio/sm2/Adrian Glynn - Blue Belle Lament.mp3"></a>
+</div>
+</div>
+</div>
+
+</div>
+<div id="playerimage" class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/unsplash-44.jpg">
+<img src="/imagestemplate/full-1600-700/unsplash-44.jpg" alt="Featured image" width="690" height="302">
+</div>
+</div>
+
+<div id="qtShoutcastFeedData" class="hidden" data-style="" data-channel="1" data-host="173.192.105.231" data-port="3540"></div>
+
+
+
+
+</div>
 
 <script src="/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 <script src="/js/jquery.js"></script>
@@ -173,45 +299,11 @@
 <script src="/components/popup/popup.js"></script>
 
 <script src="/js/qt-main.js"></script>
-
-<script>
-        window.addEventListener('load', function() {
-            const stripe = Stripe('{{env('STRIPE_KEY')}}');
-            const elements = stripe.elements();
-            const cardElement = elements.create('card');
-            cardElement.mount('#card-element');
-            const cardHolderName = document.getElementById('card-holder-name');
-            const cardButton = document.getElementById('card-button');
-            const clientSecret = cardButton.dataset.secret;
-            
-            cardButton.addEventListener('click', async (e) => {
-                const { setupIntent, error } = await stripe.handleCardSetup(
-                    clientSecret, cardElement, {
-                        payment_method_data: {
-                            billing_details: { name: cardHolderName.value }
-                        }
-                    }
-                );
-                if (error) {
-                    // Display "error.message" to the user...
-                    console.log('errorrrrr');
-                } else {
-                    // The card has been verified successfully...
-                    console.log('handling success', setupIntent.payment_method);
-                    
-                }
-            });
-        })
-    </script>
-
-
 </body>
 
 </html>
 
 
+
     
         
-
-
-

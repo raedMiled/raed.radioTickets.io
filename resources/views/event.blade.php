@@ -40,6 +40,15 @@
 
     <!-- Styles
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    <style>
+        .pht {
+            height: 150px;
+            margin-left:100px
+        }
+        .qt-input-l {
+            color: black;
+        }
+    </style>
 
 </head>
 
@@ -51,7 +60,15 @@
 
 <ul class="qt-desktopmenu hide-on-xl-and-down">
 <li class="qt-logo-link"><a href="/home" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
-
+@can('approve_request')
+<li ><a href="/home/admin">Administrator</a>
+<ul>
+<li><a href="/home/admin/users">Users</a></li>
+<li><a href="/home/admin/events">Approve Events</a></li>
+<li><a href="/home/admin/deals">Approve Deals</a></li>
+</ul>
+</li>
+@endcan
 <li><a href="/home/event">Events</a>
 <ul>
 <li><a href="/home/events">My Events</a></li>
@@ -104,6 +121,15 @@
 <div id="qt-mobile-menu" class="side-nav qt-content-primary">
 <ul class=" qt-side-nav">
 <li><a href="/home">Home</a></li>
+@can('approve_request')
+<li class="menu-item-has-children"><a href="/home/admin">Administrator</a>
+<ul>
+<li><a href="/home/admin/users">Users</a></li>
+<li><a href="/home/admin/events">Approve Events</a></li>
+<li><a href="/home/admin/deals">Approve Deals</a></li>
+</ul>
+</li>
+@endcan
 <li class="menu-item-has-children"><a href="/home/event">Events</a>
 <ul>
 <li><a href="/home/events">My Events</a></li>
@@ -148,19 +174,22 @@
 
 <div id="qtsearchbar" class="qt-searchbar qt-content-primary qt-expandable">
 <div class="qt-expandable-inner">
-<form method="post" action="#search" class="qt-inline-form">
-<div class="row qt-nopadding">
-<div class="col s12 m8 l9">
-<input placeholder="Search" value="" id="searchtex" type="text" class="validate qt-input-l">
-</div>
-<div class="col s12 m3 l2">
-<input type="button" value="Search" class="qt-btn qt-btn-primary qt-btn-l qt-fullwidth">
-</div>
-<div class="col s12 m1 l1">
-<a href="#!" class="qt-btn qt-btn-l qt-btn-secondary qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
-</div>
-</div>
-</form>
+<form method="POST" action="{{ route('search.event') }}" class="qt-inline-form">
+            @csrf
+            <div class="row qt-nopadding">
+                <div class="col s12 m8 l9">
+                    <input placeholder="Search : name, date, categorie, address" value="" id="searchtex" type="text" class="validate qt-input-l" name="q">
+                </div>
+                <div class="col s12 m3 l2">
+                    <button type="submit" value="" class="qt-btn qt-btn-primary qt-btn-l qt-fullwidth">
+                        Search
+                    </button>
+                </div>
+                <div class="col s12 m1 l1">
+                    <a href="#!" class="qt-btn qt-btn-l qt-btn-secondary qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
+                </div>
+            </div>
+        </form>
 </div>
 </div>
 <div class="qt-slickslider-container">
@@ -236,38 +265,14 @@ Events
              
 
 
-                        <div class="qt-footer-bottom qt-content-primary-dark">
+<div class="qt-footer-bottom qt-content-primary-dark">
     <div class="qt-container">
         <div class="row">
             <div class="col s12 m12 l8">
-                Copyright 2020   <a href="http://digikod.com/">digikod.com</a>| Radio  Tickets website
-                <ul class="qt-menu-footer qt-small qt-list-chevron ">
-                    <div class="col s12 m3 l3">
-                        <div class="qt-widget">
-                            <h5 class="qt-caption-small">Contacts</h5>
-                            <div class="qt-widget-contacts">
-                                <p>
-                                    <i class="qticon-home"></i><a href="http://digikod.com/">www.digikod.com</a>
-                                </p>
-                                <p>
-                                    <i class="qticon-at-sign"></i><a href="mailto:digikodnetwork@gmail.com">digikodnetwork@gmail.com</a>
-                                </p>
-                                <p>
-                                    <i class="qticon-phone"></i><a href="tel:1-847-555-5555">1-847-555-5555</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-</div>
-                <div class="col s12 m12 l4">
-                    <ul class="qt-menu-social">
-
-                        <li class="right"><a href="#"><i class="qticon-facebook"></i></a></li>
-                        <li class="right"><a href="#"><i class="qticon-instagram"></i></a></li>
-                    </ul>
+                RadioTickets Website | Powered By <a href="http://digikod.com/">digikod.com</a> Copyright 2020 All Rights Reserved
                 
             </div>
+               
         </div>
     </div>
 </div>

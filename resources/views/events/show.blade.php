@@ -161,19 +161,22 @@
 
 <div id="qtsearchbar" class="qt-searchbar qt-content-primary qt-expandable">
 <div class="qt-expandable-inner">
-<form method="post" action="#search" class="qt-inline-form">
-<div class="row qt-nopadding">
-<div class="col s12 m8 l9">
-<input placeholder="Search" value="" id="searchtex" type="text" class="validate qt-input-l">
-</div>
-<div class="col s12 m3 l2">
-<input type="button" value="Search" class="qt-btn qt-btn-primary qt-btn-l qt-fullwidth">
-</div>
-<div class="col s12 m1 l1">
-<a href="#!" class="qt-btn qt-btn-l qt-btn qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
-</div>
-</div>
-</form>
+<form method="POST" action="{{ route('searchGuest') }}" class="qt-inline-form">
+            @csrf
+            <div class="row qt-nopadding">
+                <div class="col s12 m8 l9">
+                    <input placeholder="Search : name, date, categorie, address" value="" id="searchtex" type="text" class="validate qt-input-l" name="q">
+                </div>
+                <div class="col s12 m3 l2">
+                    <button type="submit" value="" class="qt-btn qt-btn-primary qt-btn-l qt-fullwidth">
+                        Search
+                    </button>
+                </div>
+                <div class="col s12 m1 l1">
+                    <a href="#!" class="qt-btn qt-btn-l qt-btn  qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
+                </div>
+            </div>
+        </form>
 </div>
 </div>
 
@@ -227,7 +230,7 @@
 <div class="col s12 m12 l8">
 <div class="qt-the-content">
 <a href="/storage/images/{{$event->poster}}" target="_blank">
-<img src="/storage/images/{{$event->poster}}" alt="Header image" width="600" height="10" class="qt-img-responsive">
+<img src="/storage/images/{{$event->poster}}" alt="Header image" width="1200" height="525" class="qt-img-responsive">
 </a>
 <table class="table qt-eventtable ">
 <tbody>
@@ -273,6 +276,18 @@
 </div>
 </div>
 
+<!--<div class="col s12 m3 l12">
+<div class="qt-widget">
+<h5 class="qt-caption-small">
+<span>Position</span>
+</h5>
+<div class="qt-map">
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2823.9899192531298!2d-123.04142404893491!3d44.94387287592946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54bfff0c89be210f%3A0x79aa007f04406672!2s295+Center+St+NE%2C+Salem%2C+OR+97301%2C+USA!5e0!3m2!1sen!2ses!4v1478257655617" width="600" height="250" style="border:0" allowfullscreen></iframe>
+</div>
+</div>
+</div>
+</div>-->
+
 <div class="col s12 m3 l12">
     <div class="qt-widget">
         <h5 class="qt-caption-small"><span>Newest Events</span></h5>
@@ -305,34 +320,10 @@
     <div class="qt-container">
         <div class="row">
             <div class="col s12 m12 l8">
-                Copyright 2020   <a href="http://digikod.com/">digikod.com</a>| Radio  Tickets website
-                <ul class="qt-menu-footer qt-small qt-list-chevron ">
-                    <div class="col s12 m3 l3">
-                        <div class="qt-widget">
-                            <h5 class="qt-caption-small">Contacts</h5>
-                            <div class="qt-widget-contacts">
-                                <p>
-                                    <i class="qticon-home"></i><a href="http://digikod.com/">www.digikod.com</a>
-                                </p>
-                                <p>
-                                    <i class="qticon-at-sign"></i><a href="mailto:digikodnetwork@gmail.com">digikodnetwork@gmail.com</a>
-                                </p>
-                                <p>
-                                    <i class="qticon-phone"></i><a href="tel:1-847-555-5555">1-847-555-5555</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </ul>
-</div>
-                <div class="col s12 m12 l4">
-                    <ul class="qt-menu-social">
-
-                        <li class="right"><a href="#"><i class="qticon-facebook"></i></a></li>
-                        <li class="right"><a href="#"><i class="qticon-instagram"></i></a></li>
-                    </ul>
+                RadioTickets Website | Powered By <a href="http://digikod.com/">digikod.com</a> Copyright 2020 All Rights Reserved
                 
             </div>
+               
         </div>
     </div>
 </div>

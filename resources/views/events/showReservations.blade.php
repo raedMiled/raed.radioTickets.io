@@ -20,7 +20,6 @@
 
 <link rel="stylesheet" type="text/css" href="/components/soundmanager/templates/qtradio-player/css/flashblock.css" />
 <link rel="stylesheet" type="text/css" href="/components/soundmanager/templates/qtradio-player/css/qt-360player-volume.css" />
-
 <link rel="stylesheet" href="/css/qt-main.css">
 
 <link rel="stylesheet" href="/css/qt-typography.css">
@@ -40,7 +39,9 @@
 
     <!-- Styles
     <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
+    
     <style>
+        
         .pht {
             height: 150px;
             margin-left:100px
@@ -48,6 +49,28 @@
         .qt-input-l {
             color: black;
         }
+
+        .alert {
+            position: relative;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+        }
+        .alert-success {
+            color: #1d643b;
+            background-color: #d7f3e3;
+            border-color: #c7eed8;
+        }
+        .alert-danger {
+            color: #761b18;
+            background-color: #f9d6d5;
+            border-color: #f7c6c5;
+        }
+        .qt-btn-secondary{
+            margin-left:30px
+        }
+       
     </style>
 
 </head>
@@ -59,10 +82,28 @@
 <nav class="qt-menubar nav-wrapper qt-content-primary ">
 
 <ul class="qt-desktopmenu hide-on-xl-and-down">
-<li class="qt-logo-link"><a href="/" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
-
-<li><a href="/eventPage">Events</a>
-<li><a href="/dealPage">Deals</a>
+<li class="qt-logo-link"><a href="/home" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
+@can('approve_request')
+<li><a href="/home/admin">Administrator</a>
+<ul>
+<li><a href="/home/admin/users">Users</a></li>
+<li><a href="/home/admin/events">Approve Events</a></li>
+<li><a href="/home/admin/deals">Approve Deals</a></li>
+</ul>
+</li>
+@endcan
+<li><a href="/home/event">Events</a>
+<ul>
+<li><a href="/home/events">My Events</a></li>
+<li><a href="/home/events/create">Create Event</a></li>
+</ul>
+</li>
+<li><a href="/home/deal">Deals</a>
+<ul>
+<li><a href="/home/deals">My Deals</a></li>
+<li><a href="/home/deals/create">Create Deal</a></li>
+</ul>
+</li>
 </li>
 
 
@@ -95,17 +136,34 @@
 </ul>
 <ul class="qt-desktopmenu hide-on-xl-only ">
 <li><a href="#" data-activates="qt-mobile-menu" class="button-collapse qt-menu-switch qt-btn qt-btn-primary qt-btn-m"><i class="dripicons-menu"></i></a></li>
-<li><a href="/" class="brand-logo qt-logo-text">Radio Tickets</a></li>
+<li><a href="/home" class="brand-logo qt-logo-text">Radio Tickets</a></li>
 </ul>
 
 </nav>
 
 <div id="qt-mobile-menu" class="side-nav qt-content-primary">
 <ul class=" qt-side-nav">
-<li><a href="/">Home</a></li>
-<li ><a href="/eventPage">Events</a>
+<li><a href="/home">Home</a></li>
+@can('approve_request')
+<li class="menu-item-has-children"><a href="/home/admin">Administrator</a>
+<ul>
+<li><a href="/home/admin/users">Users</a></li>
+<li><a href="/home/admin/events">Approve Events</a></li>
+<li><a href="/home/admin/deals">Approve Deals</a></li>
+</ul>
 </li>
-<li ><a href="/dealPage">Deals</a>
+@endcan
+<li class="menu-item-has-children"><a href="/home/event">Events</a>
+<ul>
+<li><a href="/home/events">My Events</a></li>
+<li><a href="/home/events/create">Create Event</a></li>
+</ul>
+</li>
+<li class="menu-item-has-children"><a href="/home/deal">Deals</a>
+<ul>
+<li><a href="/home/deals">My Deals</a></li>
+<li><a href="/home/deals/create">Create Deal</a></li>
+</ul>
 </li>
 </ul>
 </div>
@@ -139,7 +197,7 @@
 
 <div id="qtsearchbar" class="qt-searchbar qt-content-primary qt-expandable">
 <div class="qt-expandable-inner">
-<form method="POST" action="{{ route('searchGuest') }}" class="qt-inline-form">
+<form method="POST" action="{{ route('search.event') }}" class="qt-inline-form">
             @csrf
             <div class="row qt-nopadding">
                 <div class="col s12 m8 l9">
@@ -151,7 +209,7 @@
                     </button>
                 </div>
                 <div class="col s12 m1 l1">
-                    <a href="#!" class="qt-btn qt-btn-l qt-btn-secondary qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
+                    <a href="#!" class="qt-btn qt-btn-l qt-btn qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
                 </div>
             </div>
         </form>
@@ -161,99 +219,74 @@
 <div class="qt-slickslider qt-slickslider-single qt-text-shadow qt-black-bg" data-variablewidth="true" data-arrows="true" data-dots="true" data-infinite="true" data-centermode="true" data-pauseonhover="true" data-autoplay="true" data-arrowsmobile="false" data-centermodemobile="true" data-dotsmobile="true" data-variablewidthmobile="true">
 
 
-<div class="qt-slick-opacity-fx qt-item"> 
-    
 <div class="qt-pageheader qt-content-primary qt-section">
 <div class="qt-container">
 <h1 class="qt-caption qt-spacer-s">
-Events
-
+Reservations
 </h1>
-<div class="qt-the-content qt-spacer-s small hide-on-med-and-down ">
-<p>
-<a href="/eventPage" class="qt-btn qt-btn-l qt-btn-primary "><i class="dripicons-align-justify"></i></a>
-</p>
 </div>
-</div>
-
 <div class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg">
 <img src="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg" alt="Featured image" width="1600" height="530">
 </div>
+</div>
+</div>
+         
+
+ 
+  
+<div class="qt-container qt-vertical-padding-l">
+<div class="row">
+  
+<div class="col s12 m12 l8">
+
+
+<div id="booking" class="section qt-section-booking qt-card">
+<div class="qt-valign-wrapper">
+<div class="qt-valign flow-text">
+<div class="qt-booking-form" data-100p-top="opacity:0;" data-80p-top="opacity:0;" data-30p-top="opacity:1;">                                       
+<ul class="tabs">                      
+<li class="tab col s4">
+<h4  class="comment-reply-title">
+Reservations list
+</h4></li>
+</ul>
+<div  class="row">
+<table>
+<tbody>
+
+<tr>
+<th>Client</th>
+<th >time of the resrvation</th>
+<th>date of the resrvation</th>
+</tr>
+@foreach($reservations as $reservation)
+@can('show-event', $event)
+
+<tr class="odd">
+<td>{{$reservation -> email}}</td>
+<td>{{$reservation -> created_at -> format('H:i:s')}}</td>
+<td>{{$reservation -> created_at -> format('d.m.Y')}}</td>
+</tr>
+
+
+
+</tbody>
+@endcan
+@endforeach
+</table>
+</div>
 
 </div>
 
 </div>
-
-
-<div class="qt-slick-opacity-fx qt-item">
-<div class="qt-pageheader qt-content-primary qt-section">
-<div class="qt-container">
-<h1 class="qt-caption qt-spacer-s">
-Deals
-</h1>
-<div class="qt-the-content qt-spacer-s small hide-on-med-and-down ">
-<p>
-<a href="/dealPage" class="qt-btn qt-btn-l qt-btn-primary "><i class="dripicons-align-justify"></i></a>
-</p>
-</div>
-</div>
-<div class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/shutterstock_177378965.jpg">
-<img src="/imagestemplate/full-1600-700/shutterstock_177378965.jpg" alt="Featured image" width="1600" height="530">
 </div>
 </div>
 </div>
 </div>
-</div> 
-
-<hr class="qt-spacer-s"> 
-                
-                
-
-                       
+</div>   
                    
                     
-                        <div class="qt-container qt-vertical-padding-m qt-archive-events">
-                            
-
-                            @foreach($events as $event)
-                            <div class="qt-part-archive-item qt-item-event qt-negative qt-card-s" >
-                                <div class="qt-item-header">
-                                    <div class="qt-header-mid qt-vc">
-                                        <div class="qt-vi">
-                                            <div class="row">
-                                                <div class="col s12 m2">
-                                                    <h4 class="qt-date ">
-                                                            <span class="qt-month">
-                                                                {{$event -> time}}
-                                                            </span>
-                                                            <span class="day">
-                                                                {{$event -> date}}
-                                                            </span>
-                                                    </h4>
-                                                </div>
-                                                <div class="col s12 m8 qt-titles">
-                                                    <div class="qt-vc">
-                                                        <div class="qt-vi">
-                                                            <h5 class="qt-spacer-xs">{{$event->address}}</h5>
-                                                            <h3 class="qt-spacer-xs qt-ellipsis qt-t qt-title">
-                                                                <a href="{{route('show.event', ['event' => $event->id])}}" class="qt-text-shadow">{{$event -> name}}</a>
-                                                            </h3>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col s12 m2">
-                                                    <a href="{{route('show.event', ['event' => $event->id])}}" class="qt-btn qt-btn-primary bottom right"><i class="dripicons-plus"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="qt-header-bg" data-bgimage="/storage/images/{{$event -> poster}}">
-                                        <img src="/storage/images/{{$event -> poster}}" alt="Featured image" width="690" height="302">
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
+                        
                             
                            
                             
@@ -273,9 +306,6 @@ Deals
     </div>
 </div>
 
-                
-
-
 
 
    
@@ -283,7 +313,7 @@ Deals
                       
 
 <div id="channelslist" class="side-nav qt-content-primary qt-right-sidebar">
-<a class="qt-btn qt-btn-secondary button-playlistswitch-close qt-close-sidebar-right" data-activates="channelslist"><i class="icon dripicons-cross"></i></a>
+<a class="qt-btn qt-btn button-playlistswitch-close qt-close-sidebar-right" data-activates="channelslist"><i class="icon dripicons-cross"></i></a>
 
 <div id="qtplayercontainer" data-playervolume="true" data-accentcolor="#dd0e34" data-accentcolordark="#ff0442" data-textcolor="#ffffff" data-soundmanagerurl="./components/soundmanager/swf/" class="qt-playercontainer qt-playervolume qt-clearfix qt-content-primary">
 <div class="qt-playercontainer-content qt-vertical-padding-m">
