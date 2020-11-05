@@ -22,6 +22,7 @@ class CreateEventsTable extends Migration
             $table->date('date');
             $table->string('poster');
             $table->string('categorie');
+            $table->number('places');
             $table->text('description');
             $table->string('address');
             $table->timestamps();

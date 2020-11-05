@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class Event extends Model
 {
-    protected $fillable = ['name','date' , 'categorie' , 'poster'];
+    protected $fillable = ['name', 'time' ,'date' , 'address', 'categorie' , 'poster', 'places' , 'description'];
 
     public function user()
     {

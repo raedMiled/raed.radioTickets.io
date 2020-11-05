@@ -259,6 +259,7 @@ Users list
 <th>user email</th>
 <th >account created at</th>
 </tr>
+@can('approve_request')
 @foreach($users as $user)
 
 <tr class="odd">
@@ -271,6 +272,7 @@ Users list
 
 </tbody>
 @endforeach
+@endcan
 </table>
 </div>
 

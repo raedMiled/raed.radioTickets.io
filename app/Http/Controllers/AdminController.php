@@ -34,4 +34,13 @@ class AdminController extends Controller
 
 
     }
+    public function indexUser(){
+        
+        $user = User::where('stripe_id','!=',null)->where('email','!=','raedchelsea@gmail.com')->latest()->get();
+        
+        return view('admin.users', [
+            'users' => $user
+        ]);
+
+    }
 }

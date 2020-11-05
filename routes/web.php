@@ -19,7 +19,7 @@ Route::get('/deals/{deal}', 'DealsController@show' );
 
 Route::get('/', 'EventsController@indexHome');
 Route::get('/eventPage', 'EventsController@indexAll');
-Route::get('/events/{event}/welcome' ,'EventsController@indexAlll');
+Route::get('/welcome' ,'EventsController@indexAlll');
 Route::post('/events/{event}/welcome', 'EventsController@approve')->name('approve.event')->middleware('verified')->middleware('check-subscription');
 
 
@@ -30,6 +30,8 @@ Route::get('/home/admin', 'AdminController@index')->middleware('verified')->midd
 Route::get('/home/admin/events', 'AdminController@EventsIndex')->middleware('verified')->middleware('check-subscription');
 Route::get('/home/admin/deals', 'AdminController@DealsIndex')->middleware('verified')->middleware('check-subscription');
 Route::get('/home/admin/{event}/showEvent', 'AdminController@EventShow')->name('showEvent.admin')->middleware('verified')->middleware('check-subscription');
+Route::get('/home/admin/users', 'AdminController@indexUser')->name('users.admin')->middleware('verified')->middleware('check-subscription');
+
 
 
 

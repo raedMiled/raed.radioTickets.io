@@ -43,17 +43,14 @@ class EventsController extends Controller
         ]);
 
     }
-    public function indexAlll($id){
+    
+    public function indexAlll(){
         
-        $event1 = Event::latest("updated_at")->take(3)->get();
-        $event = Event::find($id);
+        $user = User::whereNotNull('stripe_id')->latest()->get();
+        
         return view('welcome', [
-            'event' => $event,
-            'events' => $event1
+            'users' => $user
         ]);
-
-        
-       
 
     }
     public function indexAll(){
