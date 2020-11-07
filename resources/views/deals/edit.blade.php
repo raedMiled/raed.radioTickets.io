@@ -222,11 +222,11 @@
 <div class="qt-pageheader qt-content-primary qt-section">
 <div class="qt-container">
 <h1 class="qt-caption qt-spacer-s">
-Update event
+Update deal
 </h1>
 </div>
-<div class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg">
-<img src="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg" alt="Featured image" width="1600" height="530">
+<div class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/shutterstock_177378965.jpg">
+<img src="/imagestemplate/full-1600-700/shutterstock_177378965.jpg" alt="Featured image" width="1600" height="530">
 </div>
 </div>
 </div>
@@ -247,20 +247,20 @@ Update event
 <ul class="tabs">                      
 <li class="tab col s4">
 <h4  class="comment-reply-title">
-Update my event
+Update my deal
 </h4></li>
 </ul>
-@can('show-event', $event)
+@can('show-deal', $deal)
 <div  class="row">
-    <form class="col s12" method="POST" action="{{route('update.event', ['event' => $event->id])}}" enctype="multipart/form-data">
+    <form class="col s12" method="POST" action="{{route('update.deal', ['deal' => $deal->id])}}" enctype="multipart/form-data">
         @csrf
 
         @method('PUT')
 
         <div class="row">
             <div class="input-field col s12">
-            <input  name="name" type="text" class="@error('name') alert-danger @enderror"  value="{{$event->name}}" >
-                <label for="name" >NAME OF THE EVENT</label>
+            <input  name="name" type="text" class="@error('name') alert-danger @enderror"  value="{{$deal->name}}" >
+                <label for="name" >NAME OF THE deal</label>
                 @error('name') 
                     <p class="alert alert-danger">{{$errors->first('name')}}</p> 
                 @enderror
@@ -269,28 +269,28 @@ Update my event
         
         <div class="row">
             <div class="input-field col s12">
-                <h5>Time of the event</h5>
-                <input name="time" type="time"  class="@error('time') alert-danger @enderror"  value="{{$event->time}}">
-                @error('time') 
-                    <p class="alert alert-danger">{{$errors->first('time')}}</p> 
+                <h5>Time end of the deal</h5>
+                <input name="timeEnd" type="time"  class="@error('timeEnd') alert-danger @enderror"  value="{{$deal->timeEnd}}">
+                @error('timeEnd') 
+                    <p class="alert alert-danger">{{$errors->first('timeEnd')}}</p> 
                 @enderror  
             </div>
         </div>
         
         <div class="row">
             <div class="input-field col s12">
-                <h5>date of the event</h5>
-                <input name="date" type="date"  class=" @error('date') alert-danger @enderror"  value="{{$event->date}}">
-                @error('date') 
-                    <div class="alert alert-danger">{{$errors->first('date')}}</div> 
+                <h5>date end of the deal</h5>
+                <input name="dateEnd" type="date"  class=" @error('dateEnd') alert-danger @enderror"  value="{{$deal->dateEnd}}">
+                @error('dateEnd') 
+                    <div class="alert alert-danger">{{$errors->first('dateEnd')}}</div> 
                 @enderror  
             </div>
         </div>
         
         <div class="row">
             <div class="input-field col s12">
-            <input  name="address" type="text" class="@error('address') alert-danger @enderror" value="{{$event->address}}">
-                <label for="name" >ADDRESS OF THE EVENT</label>
+            <input  name="address" type="text" class="@error('address') alert-danger @enderror" value="{{$deal->address}}">
+                <label for="name" >ADDRESS OF THE DEAL</label>
                 @error('address') 
                     <p class="alert alert-danger">{{$errors->first('address')}}</p> 
                 @enderror
@@ -300,17 +300,25 @@ Update my event
         <div class="row">
             <div class="input-field col s12">
             <?php
-                $ss=$event->categorie;
+                $ss=$deal->categorie;
             ?>
             <select class="@error('categorie') alert-danger @enderror" name="categorie" size="1" >
                 <option value="" hidden="hidden">choose a categorie</option>
-                <option value="party" @if (old('categorie') == 'party') selected="selected" @endif @if ($ss == 'party') selected="selected" @endif>party</option>
-                <option value="courses" @if (old('categorie') == 'courses') selected="selected" @endif  @if ($ss == 'courses') selected="selected" @endif>courses</option>
-                <option value="theater" @if (old('categorie') == 'theater') selected="selected" @endif @if ($ss == 'theater') selected="selected" @endif >theater</option>
-                <option value="cinema" @if (old('categorie') == 'cinema') selected="selected" @endif @if ($ss == 'cinema') selected="selected" @endif>cinema</option>
-                <option value="concert" @if (old('categorie') == 'concert') selected="selected" @endif @if ($ss == 'concert') selected="selected" @endif>concert</option>
-                <option value="tournament" @if (old('categorie') == 'tournament') selected="selected" @endif @if ($ss == 'tournament') selected="selected" @endif>tournament</option>
-                <option value="exhibition" @if (old('categorie') == 'exhibition') selected="selected" @endif @if ($ss == 'exhibition') selected="selected" @endif>exhibition</option>
+                <option value="computers" @if (old('categorie') == 'computers') selected="selected" @endif @if ($ss == 'computers') selected="selected" @endif>computers</option>
+                <option value="booksAndMagazines" @if (old('categorie') == 'booksAndMagazines') selected="selected" @endif @if ($ss == 'booksAndMagazines') selected="selected" @endif>books and magazines</option>
+                <option value="finance" @if (old('categorie') == 'finance') selected="selected" @endif @if ($ss == 'finance') selected="selected" @endif>finance</option>
+                <option value="education" @if (old('categorie') == 'education') selected="selected" @endif @if ($ss == 'education') selected="selected" @endif>education</option>
+                <option value="autos" @if (old('categorie') == 'autos') selected="selected" @endif @if ($ss == 'autos') selected="selected" @endif>autos</option>
+                <option value="entertainment" @if (old('categorie') == 'entertainment') selected="selected" @endif @if ($ss == 'entertainment') selected="selected" @endif>entertainment</option>
+                <option value="clothingAndAccessories" @if (old('categorie') == 'clothingAndAccessories') selected="selected" @endif @if ($ss == 'clothingAndAccessories') selected="selected" @endif>clothing and accessories</option>
+                <option value="healthAndBeauty" @if (old('categorie') == 'healthAndBeauty') selected="selected" @endif @if ($ss == 'healthAndBeauty') selected="selected" @endif>health and beauty</option>
+                <option value="homeAndHomeImprovement" @if (old('categorie') == 'homeAndHomeImprovement') selected="selected" @endif @if ($ss == 'homeAndHomeImprovement') selected="selected" @endif>home and home improvement</option>
+                <option value="travelAndVacations" @if (old('categorie') == 'travelAndVacations') selected="selected" @endif @if ($ss == 'travelAndVacations') selected="selected" @endif>travel and vacations</option>
+                <option value="techAndElectronics" @if (old('categorie') == 'techAndElectronics') selected="selected" @endif @if ($ss == 'techAndElectronics') selected="selected" @endif>tech and electronics</option>
+                <option value=" sportingGoods" @if (old('categorie') == 'sportingGoods') selected="selected" @endif @if ($ss == 'sportingGoods') selected="selected" @endif> sporting goods</option>
+                <option value="services" @if (old('categorie') == 'services') selected="selected" @endif @if ($ss == 'services') selected="selected" @endif>services</option>
+                <option value="restaurants" @if (old('categorie') == 'restaurants') selected="selected" @endif @if ($ss == 'restaurants') selected="selected" @endif>restaurants</option>
+                <option value="other" @if (old('categorie') == 'other') selected="selected" @endif @if ($ss == 'other') selected="selected" @endif>other</option>
             </select>
             @error('categorie') 
                 <p class="alert alert-danger">{{$errors->first('categorie')}}</p> 
@@ -320,8 +328,42 @@ Update my event
         <hr class="qt-spacer-s">
         <div class="row">
             <div class="input-field col s12">
-            <h5>Poster of the event</h5>
-            <input name="poster" type="file"  class="input-field @error('poster') alert-danger @enderror" value="{{$event->poster}}" >
+            <?php
+                $sd=$deal->discount;
+            ?>
+            <select class="@error('discount') alert-danger @enderror" name="discount" size="1" >
+                <option value="" hidden="hidden">choose the discount</option>
+                <option value="5%" @if (old('discount') == '5%') selected="selected" @endif @if ($sd == '5%') selected="selected" @endif>5%</option>
+                <option value="10%" @if (old('discount') == '10%') selected="selected" @endif @if ($sd == '10%') selected="selected" @endif>10%</option>
+                <option value="15%" @if (old('discount') == '15%') selected="selected" @endif @if ($sd == '15%') selected="selected" @endif>15%</option>
+                <option value="20%" @if (old('discount') == '20%') selected="selected" @endif @if ($sd == '20%') selected="selected" @endif>20%</option>
+                <option value="25%" @if (old('discount') == '25%') selected="selected" @endif @if ($sd == '25%') selected="selected" @endif>25%</option>
+                <option value="30%" @if (old('discount') == '30%') selected="selected" @endif @if ($sd == '30%') selected="selected" @endif>30%</option>
+                <option value="35%" @if (old('discount') == '35%') selected="selected" @endif @if ($sd == '35%') selected="selected" @endif>35%</option>
+                <option value="40%" @if (old('discount') == '40%') selected="selected" @endif @if ($sd == '40%') selected="selected" @endif>40%</option>
+                <option value="45%" @if (old('discount') == '45%') selected="selected" @endif @if ($sd == '45%') selected="selected" @endif>45%</option>
+                <option value="50%" @if (old('discount') == '50%') selected="selected" @endif @if ($sd == '50%') selected="selected" @endif>50%</option>
+                <option value="55%" @if (old('discount') == '55%') selected="selected" @endif @if ($sd == '55%') selected="selected" @endif>55%</option>
+                <option value="60%" @if (old('discount') == '60%') selected="selected" @endif @if ($sd == '60%') selected="selected" @endif>60%</option>
+                <option value="65%" @if (old('discount') == '65%') selected="selected" @endif @if ($sd == '65%') selected="selected" @endif>65%</option>
+                <option value="70%" @if (old('discount') == '70%') selected="selected" @endif @if ($sd == '70%') selected="selected" @endif>70%</option>
+                <option value="75%" @if (old('discount') == '75%') selected="selected" @endif @if ($sd == '75%') selected="selected" @endif>75%</option>
+                <option value="80%" @if (old('discount') == '80%') selected="selected" @endif @if ($sd == '80%') selected="selected" @endif>80%</option>
+                <option value="85%" @if (old('discount') == '85%') selected="selected" @endif @if ($sd == '85%') selected="selected" @endif>85%</option>
+                <option value="90%" @if (old('discount') == '90%') selected="selected" @endif @if ($sd == '90%') selected="selected" @endif>95%</option>
+                <option value="95%" @if (old('discount') == '95%') selected="selected" @endif @if ($sd == '95%') selected="selected" @endif>95%</option>
+                <option value="100%" @if (old('discount') == '100%') selected="selected" @endif @if ($sd == '100%') selected="selected" @endif>100%</option>                
+            </select>
+            @error('discount') 
+                <p class="alert alert-danger">{{$errors->first('discount')}}</p> 
+            @enderror
+            </div>
+        </div>
+        <hr class="qt-spacer-s">
+        <div class="row">
+            <div class="input-field col s12">
+            <h5>Poster of the deal</h5>
+            <input name="poster" type="file"  class="input-field @error('poster') alert-danger @enderror" value="{{$deal->poster}}" >
                 @error('poster') 
                     <p class="alert alert-danger">{{$errors->first('poster')}}</p> 
                 @enderror
@@ -330,8 +372,8 @@ Update my event
         <hr class="qt-spacer-s">
         <div class="row">
             <div class="input-field col s12">
-            <input  name="places" type="number" class="@error('places') alert-danger @enderror"  value="{{$event->places}}" >
-                <label for="places" >NUMBER OF PLACES AVAILABLE</label>
+            <input  name="places" type="number" class="@error('places') alert-danger @enderror"  value="{{$deal->places}}" >
+                <label for="places" >NUMBER OF ITEMS AVAILABLE</label>
                 @error('places') 
                     <p class="alert alert-danger">{{$errors->first('places')}}</p> 
                 @enderror
@@ -340,9 +382,9 @@ Update my event
         <hr class="qt-spacer-s">
         <div class="row">
             <div class="input-field col s12">
-                <h5>description of the event</h5>
+                <h5>description of the deal</h5>
                 
-                <textarea name="description" class="form-control @error('description') alert-danger @enderror"  rows="6" placeholder="description" >{{$event->description}}</textarea>
+                <textarea name="description" class="form-control @error('description') alert-danger @enderror"  rows="6" placeholder="description" >{{$deal->description}}</textarea>
                     @error('description') 
                         <p class="alert alert-danger">{{$errors->first('description')}}</p> 
                     @enderror 
@@ -355,7 +397,7 @@ Update my event
                 <button class="qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" type="submit" >
                     Update
                 </button>
-                <a class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light " href="/events/{{$event->id}}/showClient">Cancel</a>
+                <a class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light " href="/deals/{{$deal->id}}/showClient">Cancel</a>
             </div>
         </div>
     </form>

@@ -15,12 +15,12 @@ use Illuminate\Http\Request;
 */
 
 Auth::routes(['verify' => true]);
-Route::get('/deals/{deal}', 'DealsController@show' );
 
 Route::get('/', 'EventsController@indexHome');
 Route::get('/eventPage', 'EventsController@indexAll');
+Route::get('/dealPage', 'DealsController@indexAll');
+
 Route::get('/welcome' ,'EventsController@indexAlll');
-Route::post('/events/{event}/welcome', 'EventsController@approve')->name('approve.event')->middleware('verified')->middleware('check-subscription');
 
 
 Route::get('/{event}/reserveEvent' ,'EventsController@indexReserve')->middleware('verified');
@@ -30,7 +30,12 @@ Route::get('/home/admin', 'AdminController@index')->middleware('verified')->midd
 Route::get('/home/admin/events', 'AdminController@EventsIndex')->middleware('verified')->middleware('check-subscription');
 Route::get('/home/admin/deals', 'AdminController@DealsIndex')->middleware('verified')->middleware('check-subscription');
 Route::get('/home/admin/{event}/showEvent', 'AdminController@EventShow')->name('showEvent.admin')->middleware('verified')->middleware('check-subscription');
+Route::get('/home/admin/{deal}/showDeal', 'AdminController@DealShow')->name('showDeal.admin')->middleware('verified')->middleware('check-subscription');
 Route::get('/home/admin/users', 'AdminController@indexUser')->name('users.admin')->middleware('verified')->middleware('check-subscription');
+Route::post('/events/{event}/events', 'AdminController@approveEvent')->name('approve.event')->middleware('verified')->middleware('check-subscription');
+Route::post('/deals/{deal}/deals', 'AdminController@approveDeal')->name('approve.deal')->middleware('verified')->middleware('check-subscription');
+
+
 
 
 
@@ -57,6 +62,27 @@ Route::post('/events', 'SmsController@store')->name('store.sms')->middleware('au
 Route::post('/events/reserve', 'SmsController@sendReservation')->name('sendReservation.sms')->middleware('auth');
 Route::get('/payment', 'PaymentController@payment')->name('payment')->middleware('verified');
 Route::post('/subscribe', 'PaymentController@subscribe')->middleware('verified');
+
+
+Route::post('/home/deals/create', 'DealsController@store')->name('save.deal')->middleware('verified')->middleware('check-subscription');
+Route::get('/home/deals/create', 'DealsController@create')->name('create.deal')->middleware('verified')->middleware('check-subscription');
+Route::get('/deals/{deal}/showClient', 'DealsController@showClient')->name('showClient.deal')->middleware('verified');
+Route::get('/deals/{deal}/show', 'DealsController@show')->name('show.deal');
+Route::get('/home/deals/{deal}/edit', 'DealsController@edit')->name('edit.deal')->middleware('verified')->middleware('check-subscription');
+Route::put('/home/deals/{deal}', 'DealsController@update')->name('update.deal')->middleware('verified')->middleware('check-subscription');
+Route::delete('/deals/{deal}', 'DealsController@delete')->name('delete.deal')->middleware('verified')->middleware('check-subscription');
+Route::get('/{deal}/showDealReservations' ,'DealsController@list')->name('list.deal')->middleware('verified')->middleware('check-subscription');
+Route::get('/home/deal', 'DealsController@indexPage')->middleware('verified');
+Route::get('/home/deals', 'DealsController@index')->middleware('verified')->middleware('check-subscription');
+
+
+Route::get('/home/{deal}/reserveDealClient' ,'DealsController@indexReserveClient')->middleware('verified');
+Route::post('/home/{deal}/reserveDealClient' ,'DealsController@storeReserveClient')->name('reserveClient.deal')->middleware('verified');
+
+
+
+
+
 
 
 Route::get('/home/search', 'SearchController@show')->middleware('verified');

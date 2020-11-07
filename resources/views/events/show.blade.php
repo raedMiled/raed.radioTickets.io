@@ -230,7 +230,7 @@
 <div class="col s12 m12 l8">
 <div class="qt-the-content">
 <a href="/storage/images/{{$event->poster}}" target="_blank">
-<img src="/storage/images/{{$event->poster}}" alt="Header image" width="1200" height="525" class="qt-img-responsive">
+<img src="/storage/images/{{$event->poster}}" alt="Header image" width="600" height="525" class="qt-img-responsive">
 </a>
 <table class="table qt-eventtable ">
 <tbody>
@@ -253,7 +253,7 @@
     
                    
                     
-                        <form method="POST" action="{{route('reserve.event', ['event' => $event->id])}}">
+                        <form method="POST" action="{{route('reserveClient.event', ['event' => $event->id])}}">
                             @csrf
                             @method('GET')
                             <button  type="submit" class=" qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" >get resrvation for this event</button>

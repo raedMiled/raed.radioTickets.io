@@ -228,15 +228,15 @@
 
 <div class="qt-part-event-featured qt-card qt-negative qt-vertical-padding-l">
 <div class="qt-event-featured-content">
-<h1 class="qt-spacer-s">{{$event->name}}</h1><br>
-<h3 class="qt-caption qt-spacer-s">Time Remaining Before The Event</h3>
+<h1 class="qt-spacer-s">{{$deal->name}}</h1><br>
+<h3 class="qt-caption qt-spacer-s">Time Remaining Before The deal ends</h3>
 <div class="qt-countdown-container">
-<div id="countdown" class="ClassyCountdownDemo qt-countdown" data-end="{{$event->date}} {{$event->time}}"></div>
+<div id="countdown" class="ClassyCountdownDemo qt-countdown" data-end="{{$deal->dateEnd}} {{$deal->timeEnd}}"></div>
 </div>
 </div>
 <div class="qt-countdown-background">
-<div class="qt-header-bg" data-bgimage="/imagestemplate/large-1170-512/unsplash-28.jpg">
-<img src="/imagestemplate/large-1170-512/unsplash-28.jpg" alt="Featured image" width="690" height="302">
+<div class="qt-header-bg" data-bgimage="/imagestemplate/large-1170-512/unsplash-20.jpg">
+<img src="/imagestemplate/large-1170-512/unsplash-20.jpg" alt="Featured image" width="690" height="302">
 </div>
 </div>
 </div>        
@@ -274,55 +274,54 @@
 
 <div class="col s12 m12 l8">
 <div class="qt-the-content">
-<a href="/storage/images/{{$event->poster}}" target="_blank">
-<img src="/storage/images/{{$event->poster}}" alt="Header image" width="600" height="525" class="qt-img-responsive">
+<a href="/storage/images/{{$deal->poster}}" target="_blank">
+<img src="/storage/images/{{$deal->poster}}" alt="Header image" width="600" height="525" class="qt-img-responsive">
 </a>
 <table class="table qt-eventtable ">
 <tbody>
 <tr>
-<th>Date:</th>
-<td>{{$event->date}}</td>
+<th>Date End:</th>
+<td>{{$deal->dateEnd}}</td>
 </tr>
 <tr>
-<th>Time:</th>
-<td>{{$event->time}}</td>
+<th>Time End:</th>
+<td>{{$deal->timeEnd}}</td>
 </tr>
 <tr>
 <th>Address:</th>
-<td> {{$event->address}}</td>
+<td> {{$deal->address}}</td>
 </tr>
 <tr>
 </tbody>
 </table>
 <div class="qt-content">
-    @can('show-event', $event)
+    @can('show-deal', $deal)
     
     <table class="table qt-eventtable ">
         <tr>       
                     
-                        <a class="qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" href="{{route('list.event', ['event' => $event->id])}}">reservation list</a>
+                        <a class="qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" href="{{route('list.deal', ['deal' => $deal->id])}}">reservation list</a>
 
-                        <a class="qt-btn qt-btn-l qt-btn-secondary qt-spacer-m waves-effect waves-light" href="{{route('edit.event', ['event' => $event->id])}}">update event</a>
+                        <a class="qt-btn qt-btn-l qt-btn-secondary qt-spacer-m waves-effect waves-light" href="{{route('edit.deal', ['deal' => $deal->id])}}">update deal</a>
 
-                        <form method="POST" id="delete-event" action="{{route('delete.event',  ['event' => $event->id])}}">
+                        <form method="POST" id="delete-deal" action="{{route('delete.deal',  ['deal' => $deal->id])}}">
                             @csrf
                             @method('DELETE')
-                            <button  type="submit" class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light" onclick="return confirm('Sure Want Delete?')" >delete event</button>
+                            <button  type="submit" class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light" onclick="return confirm('Sure Want Delete?')" >delete deal</button>
                             </form>
 
-                       <!-- <button class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light remove-event" data-id="{{ $event->id }}" data-action="{{route('delete.event',  ['event' => $event->id])}}"> Delete Event</button>-->
                      
                     </tr>
                 </table> 
                       
                     
                     @endcan
-                   @can('show-reservation-button', $event)
+                   @can('show-reservation-button-deal', $deal)
                     
-                        <form method="POST" action="{{route('reserveClient.event', ['event' => $event->id])}}">
+                        <form method="POST" action="{{route('reserveClient.deal', ['deal' => $deal->id])}}">
                             @csrf
                             @method('GET')
-                            <button  type="submit" class=" qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" >get resrvation for this event</button>
+                            <button  type="submit" class=" qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" >get resrvation for this deal</button>
                             
                         </form>
                     
@@ -336,7 +335,7 @@
 <div class="qt-widgets qt-sidebar-main qt-text-secondary row">
 <div class="col s12 m3 l12">
 <div class="qt-widget">
-<h5 class="qt-caption-small"><span>Description</span></h5> {{$event->description}}
+<h5 class="qt-caption-small"><span>Description</span></h5> {{$deal->description}}
 <hr class="qt-spacer-s">
 
 </div>
@@ -346,17 +345,17 @@
 
 <div class="col s12 m3 l12">
     <div class="qt-widget">
-        <h5 class="qt-caption-small"><span>Newest Events</span></h5>
+        <h5 class="qt-caption-small"><span>Newest Deals</span></h5>
             <ul class="qt-widget-upcoming">
-            @foreach($events as $event1)
+            @foreach($deals as $deal1)
                 <li class="qt-card-s paper">
                     <h5>
-                        <a href="{{route('showClient.event', ['event' => $event1->id])}}">{{$event1 -> name}}</a>
+                        <a href="{{route('showClient.deal', ['deal' => $deal1->id])}}">{{$deal1 -> name}}</a>
                     </h5>
                     <p>
-                        {{$event1 -> date}}
+                        {{$deal1 -> dateEnd}}
                     </p>
-                    <img src="/storage/images/{{$event1 -> poster}}" alt="Show cover" width="200" height="110" class="right">
+                    <img src="/storage/images/{{$deal1 -> poster}}" alt="Show cover" width="200" height="110" class="right">
                 </li>
                 @endforeach
             </ul>
@@ -450,7 +449,7 @@
 
 <script src="/js/qt-main.js"></script>
 <script type="text/javascript">
-  $("body").on("click",".remove-event",function(){
+  $("body").on("click",".remove-deal",function(){
     var current_object = $(this);
     swal({
         title: "Are you sure?",

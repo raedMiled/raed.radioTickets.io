@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Event;
+use App\Deal;
 use App\Reservation;
 use App\User;
 
@@ -54,19 +55,21 @@ class EventsController extends Controller
 
     }
     public function indexAll(){
-        $event = Event::where('approve','1')->latest("updated_at")->get();
+        $event = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
         return view('eventPage', [
             'events' => $event
         ]);
     }
     public function indexHome(){
-        $event = Event::where('approve','1')->latest("updated_at")->get();
+        $event = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
+        $deal = Deal::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
         return view('homePage', [
-            'events' => $event
+            'events' => $event,
+            'deals' => $deal
         ]);
     }
     public function indexPage(){
-        $event = Event::where('approve','1')->latest("updated_at")->get();
+        $event = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
         return view('event', [
             'events' => $event
         ]);
@@ -135,7 +138,7 @@ class EventsController extends Controller
        Mail::to(request('email'))
             ->send(new EventTicket($event,$random));
 
-     
+            $event = Event::find($id)->decrement('places');
 
             return back()
             ->with('message','email sent');
@@ -182,6 +185,7 @@ class EventsController extends Controller
             'date' => 'required|after:yesterday',
             'poster' => 'required',
             'categorie' => 'required',
+            'places' => 'required|numeric|min:1',
             'description' => 'required',
             'address' => 'required'
         ]);
@@ -193,6 +197,7 @@ class EventsController extends Controller
         $event->poster=$filenametostore;
         //$event->poster = request('poster');
         $event->categorie = request('categorie');
+        $event->places = request('places');
         $event->description = request('description');
         $event->address = request('address');
 
@@ -255,7 +260,7 @@ class EventsController extends Controller
             'date' => 'required|after:yesterday',
             
             'categorie' => 'required',
-            
+            'places' => 'required|numeric|min:1',
             'description' => 'required',
             'address' => 'required'
         ]);
@@ -267,6 +272,7 @@ class EventsController extends Controller
         $event->date = request('date');
         $event->poster=$filenametostore;
         $event->categorie = request('categorie');
+        $event->places = request('places');
         $event->description = request('description');
         $event->address = request('address');
 
@@ -299,7 +305,7 @@ class EventsController extends Controller
     }
 
     public function show($id){
-        $event1 = Event::where('approve','1')->latest("updated_at")->take(3)->get();
+        $event1 = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->take(3)->get();
         $event = Event::find($id);
         return view('events.show', [
             'event' => $event,
@@ -310,7 +316,7 @@ class EventsController extends Controller
     }
 
     public function showClient($id){
-        $event1 = Event::where('approve','1')->latest("updated_at")->take(3)->get();
+        $event1 = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->take(3)->get();
         $event = Event::find($id);
         return view('events.showClient', [
             'event' => $event,

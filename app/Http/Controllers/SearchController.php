@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Event;
+use App\Deal;
 
 use Illuminate\Http\Request;
 
@@ -14,13 +15,19 @@ class SearchController extends Controller
                             ->orWhere ( 'categorie', 'LIKE', '%' . $q . '%' )
                             ->orWhere ( 'date', 'LIKE', '%' . $q . '%' )
                             ->orWhere ( 'address', 'LIKE', '%' . $q . '%' )->latest()->get ();
-        if (count ( $event ) > 0)
+        $deal = Deal::where('approve','1')->where ( 'name', 'LIKE', '%' . $q . '%' )
+                            ->orWhere ( 'categorie', 'LIKE', '%' . $q . '%' )
+                            ->orWhere ( 'dateEnd', 'LIKE', '%' . $q . '%' )
+                            ->orWhere ( 'address', 'LIKE', '%' . $q . '%' )->latest()->get ();
+        if (count ( $event ) > 0 || count ( $deal ) > 0 )
             return view ( 'events.search', [
-                'events' => $event
-            ] )->withDetails ( $event )->withQuery ( $q );
+                'events' => $event,
+                'deals' => $deal
+            ] )->withDetails ( $event )->withDetails ( $deal )->withQuery ( $q );
         else
             return view ( 'events.search', [
-                'events' => $event
+                'events' => $event,
+                'deals' => $deal
             ] )->withMessage ( 'No matches for your search. Sorry!' );
     }
 
@@ -31,14 +38,21 @@ class SearchController extends Controller
                             ->orWhere ( 'categorie', 'LIKE', '%' . $q . '%' )
                             ->orWhere ( 'date', 'LIKE', '%' . $q . '%' )
                             ->orWhere ( 'address', 'LIKE', '%' . $q . '%' )->latest()->get ();
-        if (count ( $event ) > 0)
+                            $deal = Deal::where('approve','1')->where ( 'name', 'LIKE', '%' . $q . '%' )
+                            ->orWhere ( 'categorie', 'LIKE', '%' . $q . '%' )
+                            ->orWhere ( 'dateEnd', 'LIKE', '%' . $q . '%' )
+                            ->orWhere ( 'address', 'LIKE', '%' . $q . '%' )->latest()->get ();
+        if (count ( $event ) > 0 || count ( $deal ) > 0 )
             return view ( 'searchGuest', [
-                'events' => $event
-            ] )->withDetails ( $event )->withQuery ( $q );
+                'events' => $event,
+                'deals' => $deal
+            ] )->withDetails ( $event )->withDetails ( $deal )->withQuery ( $q );
         else
             return view ( 'searchGuest', [
-                'events' => $event
+                'events' => $event,
+                'deals' => $deal
             ] )->withMessage ( 'No matches for your search. Sorry!' );
+        
     }
 
     public function show(){

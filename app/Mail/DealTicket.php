@@ -7,21 +7,21 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class EventTicket extends Mailable
+class DealTicket extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $event;
+    public $deal;
     public $random;
-
+    
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($event , $random)
+    public function __construct($deal , $random)
     {
-        $this->event = $event;
+        $this->deal = $deal;
         $this->random = $random;
     }
 
@@ -32,7 +32,7 @@ class EventTicket extends Mailable
      */
     public function build()
     {
-        return $this->view('email.eventTicket')
-                    ->subject('Your ticket for '. $this->event->name);
+        return $this->view('email.dealTicket')
+        ->subject('Your ticket for '. $this->deal->name);
     }
 }

@@ -41,6 +41,9 @@ class User extends Authenticatable implements MustVerifyEmail
     public function event(){
         return $this->hasMany(Event::class);
     }
+    public function deal(){
+        return $this->hasMany(Deal::class);
+    }
 
     public function roles()
     {

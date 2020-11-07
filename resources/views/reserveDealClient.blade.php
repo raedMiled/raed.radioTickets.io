@@ -97,7 +97,7 @@
 <div class="qt-booking-form" data-100p-top="opacity:0;" data-80p-top="opacity:0;" data-30p-top="opacity:1;">                                       
 <ul class="tabs">                      
 <li class="tab col s4">
-<h5><a  class="active">SEND RESERVATION TICKET FOR AN EVENT</a></h5></li>
+<h5><a  class="active">SEND REDUCTION TICKET FOR AN DEAL</a></h5></li>
 </ul>
 <div  class="row">
 @if (session('message'))
@@ -105,7 +105,7 @@
             {{ __('Your ticket has been sent to your email address.') }}
         </div>
     @endif
-    <form class="col s12" action="{{ route('reserveClient.event', ['event' => $event->id]) }}" method="POST">
+    <form class="col s12" action="{{ route('reserveClient.deal', ['deal' => $deal->id]) }}" method="POST">
         @csrf
 
         <div class="row">

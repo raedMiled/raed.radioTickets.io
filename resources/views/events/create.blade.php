@@ -322,6 +322,16 @@ My New Event
         <hr class="qt-spacer-s">
         <div class="row">
             <div class="input-field col s12">
+            <input  name="places" type="number" class="@error('places') alert-danger @enderror"  value="{{old('places')}}" >
+                <label for="places" >NUMBER OF PLACES AVAILABLE</label>
+                @error('places') 
+                    <p class="alert alert-danger">{{$errors->first('places')}}</p> 
+                @enderror
+            </div>
+        </div>
+        <hr class="qt-spacer-s">
+        <div class="row">
+            <div class="input-field col s12">
                 <h5>description of the event</h5>
                 
                 <textarea name="description" class="form-control @error('description') alert-danger @enderror"  rows="6" placeholder="description" >{{old('description')}}</textarea>

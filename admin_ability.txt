@@ -1,0 +1,13 @@
+php artisan tinker
+$user = User::find(1); // 1 c'est l'id de l'utilisateur qui va être l'admin
+Role::firstOrCreate(['name' => 'admin']);
+$role = Role::firstOrCreate(['name' => 'admin']);
+$ability = Ability::firstOrCreate(['name' => 'approve_request']);
+
+$admin = Role::firstOrCreate(['name' => 'admin']);
+$approve_request = Ability::firstOrCreate(['name' => 'approve_request']);
+$admin->allowTo($approve_request);
+
+$user = User::find(1);
+$admin = Role::firstOrCreate(['name' => 'admin']);
+$user->assignRole($admin);

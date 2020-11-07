@@ -20,18 +20,10 @@
 
 <link rel="stylesheet" type="text/css" href="/components/soundmanager/templates/qtradio-player/css/flashblock.css" />
 <link rel="stylesheet" type="text/css" href="/components/soundmanager/templates/qtradio-player/css/qt-360player-volume.css" />
-
 <link rel="stylesheet" href="/css/qt-main.css">
 
 <link rel="stylesheet" href="/css/qt-typography.css">
     <link rel="shortcut icon" type="image/png" href="/imagestemplate/radio-logo-icon.png">
-    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
-
-  <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -46,10 +38,9 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> -->
 
     <!-- Styles
-    <link href="{{ asset('/css/app.css') }}" rel="stylesheet"> -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
     
-
-  <style>
+    <style>
         
         .pht {
             height: 150px;
@@ -93,7 +84,7 @@
 <ul class="qt-desktopmenu hide-on-xl-and-down">
 <li class="qt-logo-link"><a href="/home" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
 @can('approve_request')
-<li ><a href="/home/admin">Administrator</a>
+<li><a href="/home/admin">Administrator</a>
 <ul>
 <li><a href="/home/admin/users">Users</a></li>
 <li><a href="/home/admin/events">Approve Events</a></li>
@@ -224,152 +215,83 @@
         </form>
 </div>
 </div>
+<div class="qt-slickslider-container">
+<div class="qt-slickslider qt-slickslider-single qt-text-shadow qt-black-bg" data-variablewidth="true" data-arrows="true" data-dots="true" data-infinite="true" data-centermode="true" data-pauseonhover="true" data-autoplay="true" data-arrowsmobile="false" data-centermodemobile="true" data-dotsmobile="true" data-variablewidthmobile="true">
 
 
-<div class="qt-part-event-featured qt-card qt-negative qt-vertical-padding-l">
-<div class="qt-event-featured-content">
-<h1 class="qt-spacer-s">{{$event->name}}</h1><br>
-<h3 class="qt-caption qt-spacer-s">Time Remaining Before The Event</h3>
-<div class="qt-countdown-container">
-<div id="countdown" class="ClassyCountdownDemo qt-countdown" data-end="{{$event->date}} {{$event->time}}"></div>
+<div class="qt-pageheader qt-content-primary qt-section">
+<div class="qt-container">
+<h1 class="qt-caption qt-spacer-s">
+Reservations
+</h1>
+</div>
+<div class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/shutterstock_177378965.jpg">
+<img src="/imagestemplate/full-1600-700/shutterstock_177378965.jpg" alt="Featured image" width="1600" height="530">
 </div>
 </div>
-<div class="qt-countdown-background">
-<div class="qt-header-bg" data-bgimage="/imagestemplate/large-1170-512/unsplash-28.jpg">
-<img src="/imagestemplate/large-1170-512/unsplash-28.jpg" alt="Featured image" width="690" height="302">
 </div>
-</div>
-</div>        
+         
 
-
-
-
+ 
+  
 <div class="qt-container qt-vertical-padding-l">
 <div class="row">
-<div class="col s12 m12 l1 qt-pushpin-container">
-
-
-<ul class="qt-sharepage qt-content-primary">
-<li class="hide-on-med-and-down">
-<i class="qticon-share qt-shareicon qt-content-primary-dark"></i>
-</li>
-<li>
-<a class="qt-popupwindow qt-sharelink" data-sharetype="facebook" data-name="Share" data-width="600" data-height="500" target="_blank" href="">
-<i class="qticon-facebook"></i>
-</a>
-</li>
-<li>
-<a class="qt-popupwindow qt-sharelink" data-sharetype="twitter" data-name="Share" data-width="600" data-height="500" target="_blank" href="">
-<i class="qticon-twitter"></i>
-</a>
-</li>
-
-
-</ul>
-
-
-<hr class="qt-spacer-m">
-</div>
-
-
+  
 <div class="col s12 m12 l8">
-<div class="qt-the-content">
-<a href="/storage/images/{{$event->poster}}" target="_blank">
-<img src="/storage/images/{{$event->poster}}" alt="Header image" width="600" height="525" class="qt-img-responsive">
-</a>
-<table class="table qt-eventtable ">
+
+
+<div id="booking" class="section qt-section-booking qt-card">
+<div class="qt-valign-wrapper">
+<div class="qt-valign flow-text">
+<div class="qt-booking-form" data-100p-top="opacity:0;" data-80p-top="opacity:0;" data-30p-top="opacity:1;">                                       
+<ul class="tabs">                      
+<li class="tab col s4">
+<h4  class="comment-reply-title">
+Reservations list
+</h4></li>
+</ul>
+<div  class="row">
+<table>
 <tbody>
+
 <tr>
-<th>Date:</th>
-<td>{{$event->date}}</td>
+<th>Client</th>
+<th >time of the resrvation</th>
+<th>date of the resrvation</th>
 </tr>
-<tr>
-<th>Time:</th>
-<td>{{$event->time}}</td>
+@foreach($reservations as $reservation)
+@can('show-deal', $deal)
+
+<tr class="odd">
+<td>{{$reservation -> email}}</td>
+<td>{{$reservation -> created_at -> format('H:i:s')}}</td>
+<td>{{$reservation -> created_at -> format('d.m.Y')}}</td>
 </tr>
-<tr>
-<th>Address:</th>
-<td> {{$event->address}}</td>
-</tr>
-<tr>
+
+
+
 </tbody>
+@endcan
+@endforeach
 </table>
-<div class="qt-content">
-    @can('show-event', $event)
-    
-    <table class="table qt-eventtable ">
-        <tr>       
-                    
-                        <a class="qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" href="{{route('list.event', ['event' => $event->id])}}">reservation list</a>
+</div>
 
-                        <a class="qt-btn qt-btn-l qt-btn-secondary qt-spacer-m waves-effect waves-light" href="{{route('edit.event', ['event' => $event->id])}}">update event</a>
+</div>
 
-                        <form method="POST" id="delete-event" action="{{route('delete.event',  ['event' => $event->id])}}">
-                            @csrf
-                            @method('DELETE')
-                            <button  type="submit" class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light" onclick="return confirm('Sure Want Delete?')" >delete event</button>
-                            </form>
-
-                       <!-- <button class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light remove-event" data-id="{{ $event->id }}" data-action="{{route('delete.event',  ['event' => $event->id])}}"> Delete Event</button>-->
-                     
-                    </tr>
-                </table> 
-                      
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>   
+                   
                     
-                    @endcan
-                   @can('show-reservation-button', $event)
-                    
-                        <form method="POST" action="{{route('reserveClient.event', ['event' => $event->id])}}">
-                            @csrf
-                            @method('GET')
-                            <button  type="submit" class=" qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" >get resrvation for this event</button>
+                        
                             
-                        </form>
-                    
-                    @endcan    
-</div>
-</div>
-</div>
-
-<div class="qt-sidebar col s12 m12 l3">
-
-<div class="qt-widgets qt-sidebar-main qt-text-secondary row">
-<div class="col s12 m3 l12">
-<div class="qt-widget">
-<h5 class="qt-caption-small"><span>Description</span></h5> {{$event->description}}
-<hr class="qt-spacer-s">
-
-</div>
-</div>
-
-
-
-<div class="col s12 m3 l12">
-    <div class="qt-widget">
-        <h5 class="qt-caption-small"><span>Newest Events</span></h5>
-            <ul class="qt-widget-upcoming">
-            @foreach($events as $event1)
-                <li class="qt-card-s paper">
-                    <h5>
-                        <a href="{{route('showClient.event', ['event' => $event1->id])}}">{{$event1 -> name}}</a>
-                    </h5>
-                    <p>
-                        {{$event1 -> date}}
-                    </p>
-                    <img src="/storage/images/{{$event1 -> poster}}" alt="Show cover" width="200" height="110" class="right">
-                </li>
-                @endforeach
-            </ul>
-    </div>
-</div>
-
-
-</div>
-
-</div>
-</div>
-</div>
-
+                           
+                            
+                      
+             
 
 
 <div class="qt-footer-bottom qt-content-primary-dark">
@@ -383,7 +305,6 @@
         </div>
     </div>
 </div>
-
 
 
 
@@ -449,38 +370,15 @@
 <script src="/components/popup/popup.js"></script>
 
 <script src="/js/qt-main.js"></script>
-<script type="text/javascript">
-  $("body").on("click",".remove-event",function(){
-    var current_object = $(this);
-    swal({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        type: "error",
-        showCancelButton: true,
-        dangerMode: true,
-        cancelButtonClass: '#DD6B55',
-        confirmButtonColor: '#dc3545',
-        confirmButtonText: 'Delete!',
-    },function (result) {
-        if (result) {
-            var action = current_object.attr('data-action');
-            var token = jQuery('meta[name="csrf-token"]').attr('content');
-            var id = current_object.attr('data-id');
-
-            $('body').html("<form class='form-inline remove-form' method='post' action='"+action+"'></form>");
-            $('body').find('.remove-form').append('<input name="_method" type="hidden" value="delete">');
-            $('body').find('.remove-form').append('<input name="_token" type="hidden" value="'+token+'">');
-            $('body').find('.remove-form').append('<input name="id" type="hidden" value="'+id+'">');
-            $('body').find('.remove-form').submit();
-        }
-    });
-});
-</script>
 </body>
 
 </html>
 
 
-
     
         
+</body>
+
+
+<!-- Mirrored from demos.distinctivepixels.com/templates/milea/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 01 Jul 2020 11:19:11 GMT -->
+</html>
