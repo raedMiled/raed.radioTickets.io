@@ -29,6 +29,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 
 
+<script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK196L3Y8Pnjsq4QG6dPohNM4TemTSEZU&callback=initMap&libraries=&v=weekly"
+      defer
+    ></script>
+
   <script src="http://demo.itsolutionstuff.com/plugin/jquery.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
@@ -47,6 +52,7 @@
 
     <!-- Styles
     <link href="{{ asset('/css/app.css') }}" rel="stylesheet"> -->
+    <script src="/js/jquery.js"></script>
     
 
   <style>
@@ -76,8 +82,74 @@
             background-color: #f9d6d5;
             border-color: #f7c6c5;
         }
-        .qt-btn-secondary{
-            margin-left:30px
+        
+        #more  {display:  none;}
+        .read-more
+        {
+
+            text-decoration: none;
+            color: #0000ff;
+            font-weight: bold;
+            padding: 0;
+            border: none;
+            background: none;
+        }
+        .ime
+        {
+            min-width: 485px;
+            min-height: 325.5px;
+            max-width: 485px;
+            max-height: 325.5px;
+            
+            object-fit: cover;
+            
+        }
+        .tdta
+        {
+            width: 500px;
+        }
+        .imn{
+            min-width: 110px;
+            min-height: 100%;
+            max-width: 110px;
+            max-height: 100%;
+        }
+        .block1{
+            margin-top: -47px;
+        }
+        .block2{
+            margin-top: -80px;
+            margin-left: 20px;
+            min-width: 250px;
+            min-height: 200px;
+            max-width: 250px;
+            max-height: 200px;
+            font-size: 1.2em;
+            line-height: 150%;
+            text-align: justify;
+        }
+        .block3{
+            margin-top: -150px;
+            margin-left: 20px;
+            min-width: 400px;
+            min-height: 200px;
+            max-width: 400px;
+            max-height: 200px;
+            font-size: 1.5em;
+            line-height: 150%;
+            text-align: justify;
+        }
+        .block4{
+            margin-top: -100px;
+        }
+        .tdtab{
+            min-width: 200px;
+            max-width: 200px;
+            min-height: 300px;
+            max-height: 300px;
+        }
+        .block5{
+            margin-top: 40px;
         }
        
     </style>
@@ -231,7 +303,7 @@
 <h1 class="qt-spacer-s">{{$event->name}}</h1><br>
 <h3 class="qt-caption qt-spacer-s">Time Remaining Before The Event</h3>
 <div class="qt-countdown-container">
-<div id="countdown" class="ClassyCountdownDemo qt-countdown" data-end="{{$event->date}} {{$event->time}}"></div>
+<div id="countdown" class="ClassyCountdownDemo qt-countdown" data-end="{{ \Carbon\Carbon::parse($event->date)->format('d M Y')}}  {{ \Carbon\Carbon::parse($event->time)->format('h:i')}}"></div>
 </div>
 </div>
 <div class="qt-countdown-background">
@@ -245,131 +317,176 @@
 
 
 <div class="qt-container qt-vertical-padding-l">
-<div class="row">
-<div class="col s12 m12 l1 qt-pushpin-container">
+    <div class="row">
+        <div class="col s12 m12 l1 qt-pushpin-container">
 
 
-<ul class="qt-sharepage qt-content-primary">
-<li class="hide-on-med-and-down">
-<i class="qticon-share qt-shareicon qt-content-primary-dark"></i>
-</li>
-<li>
-<a class="qt-popupwindow qt-sharelink" data-sharetype="facebook" data-name="Share" data-width="600" data-height="500" target="_blank" href="">
-<i class="qticon-facebook"></i>
-</a>
-</li>
-<li>
-<a class="qt-popupwindow qt-sharelink" data-sharetype="twitter" data-name="Share" data-width="600" data-height="500" target="_blank" href="">
-<i class="qticon-twitter"></i>
-</a>
-</li>
+            <ul class="qt-sharepage qt-content-primary">
+                <li class="hide-on-med-and-down">
+                    <i class="qticon-share qt-shareicon qt-content-primary-dark"></i>
+                </li>
+                <li>
+                    <a class="qt-popupwindow qt-sharelink" data-sharetype="facebook" data-name="Share" data-width="600" data-height="500" target="_blank" href="">
+                        <i class="qticon-facebook"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="qt-popupwindow qt-sharelink" data-sharetype="twitter" data-name="Share" data-width="600" data-height="500" target="_blank" href="">
+                        <i class="qticon-twitter"></i>
+                    </a>
+                </li>
+            </ul>
 
 
-</ul>
+            <hr class="qt-spacer-m">
+        </div>
 
 
-<hr class="qt-spacer-m">
-</div>
+        <div class="col s12 m12 l8 block1">
+            <div class="qt-the-content">
+                <table class="table qt-eventtable ">
+                <tbody>
+                    <tr> 
+                    <td>
+                        <a href="/storage/images/{{$event->poster}}" target="_blank">
+                            <img src="/storage/images/{{$event->poster}}"  width="500" height="525" class=" ime ">
+                        </a>
+                    </td>
+                    <td>
+                        <div class="qt-widget block2" >
 
+                            <h5 class="qt-caption-small "><span>Description</span></h5>
+                            
+                            <!--{{$event->description}}-->
+                                {{substr(strip_tags($event->description),0,100)}}
+                                @if (strlen($event->description) > 100)
+                                    <span id="dots">...</span>
+                                    <span id="more">{{substr($event->description,100)}}</span>
+                                    <button onclick="myFunction()" id="myBtn" class="read-more">Read more</button>
+                                @endif 
+                                
 
-<div class="col s12 m12 l8">
-<div class="qt-the-content">
-<a href="/storage/images/{{$event->poster}}" target="_blank">
-<img src="/storage/images/{{$event->poster}}" alt="Header image" width="600" height="525" class="qt-img-responsive">
-</a>
-<table class="table qt-eventtable ">
-<tbody>
-<tr>
-<th>Date:</th>
-<td>{{$event->date}}</td>
-</tr>
-<tr>
-<th>Time:</th>
-<td>{{$event->time}}</td>
-</tr>
-<tr>
-<th>Address:</th>
-<td> {{$event->address}}</td>
-</tr>
-<tr>
-</tbody>
-</table>
-<div class="qt-content">
-    @can('show-event', $event)
-    
-    <table class="table qt-eventtable ">
-        <tr>       
-                    
-                        <a class="qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" href="{{route('list.event', ['event' => $event->id])}}">reservation list</a>
-
-                        <a class="qt-btn qt-btn-l qt-btn-secondary qt-spacer-m waves-effect waves-light" href="{{route('edit.event', ['event' => $event->id])}}">update event</a>
-
-                        <form method="POST" id="delete-event" action="{{route('delete.event',  ['event' => $event->id])}}">
-                            @csrf
-                            @method('DELETE')
-                            <button  type="submit" class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light" onclick="return confirm('Sure Want Delete?')" >delete event</button>
-                            </form>
-
-                       <!-- <button class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light remove-event" data-id="{{ $event->id }}" data-action="{{route('delete.event',  ['event' => $event->id])}}"> Delete Event</button>-->
-                     
+                        </div>
+                    </td>
                     </tr>
-                </table> 
+                </tbody>
+                </table>
+
+
+            </div>
+            <div class="qt-the-content">
+            <table >
+                    <tr>
+                        <td>
+                            <table class="table qt-eventtable tdta block4">
+                                <tbody class="block3">
+                                    <tr>
+                                        <th>Date:</th>
+                                        <td>{{ \Carbon\Carbon::parse($event->date)->format('d M Y')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Time:</th>
+                                        <td> {{ \Carbon\Carbon::parse($event->time)->format('H:i')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Address:</th>
+                                        <td> {{$event->address}}</td>
+                                    </tr>
+                       
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>
+                            <div class="qt-content tdtab">
+                            @can('show-event', $event)
+                                <table >
+                                    <tr>       
+                                        <td>
+                                            <a class="qt-btn qt-btn-l qt-btn-primary  waves-effect waves-light" href="{{route('list.event', ['event' => $event->id])}}">reservation list</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <a class="qt-btn qt-btn-l qt-btn-secondary  waves-effect waves-light" href="{{route('edit.event', ['event' => $event->id])}}">update event</a>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <form method="POST" id="delete-event" action="{{route('delete.event',  ['event' => $event->id])}}">
+                                            @csrf
+                                            @method('DELETE')
+                                                <button  type="submit" class="qt-btn qt-btn-l  qt-btn-secondary  waves-effect waves-light" onclick="return confirm('Sure Want Delete?')" >delete event</button>
+                                            </form>
+
+                                            <!-- <button class="qt-btn qt-btn-l  qt-btn-secondary  qt-spacer-m waves-effect waves-light remove-event" data-id="{{ $event->id }}" data-action="{{route('delete.event',  ['event' => $event->id])}}"> Delete Event</button>-->
+                                        </td>
+                                    </tr>
+                                </table> 
+
                       
                     
-                    @endcan
-                   @can('show-reservation-button', $event)
+                            @endcan
+                            @can('show-reservation-button', $event)
                     
-                        <form method="POST" action="{{route('reserveClient.event', ['event' => $event->id])}}">
-                            @csrf
-                            @method('GET')
-                            <button  type="submit" class=" qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" >get resrvation for this event</button>
+                                <form method="POST" action="{{route('reserveClient.event', ['event' => $event->id])}}">
+                                @csrf
+                                @method('GET')
+                                    <button  type="submit" class=" qt-btn qt-btn-l qt-btn-primary qt-spacer-m waves-effect waves-light" >get resrvation</button>
                             
-                        </form>
+                                </form>
                     
-                    @endcan    
-</div>
-</div>
-</div>
+                            @endcan    
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-<div class="qt-sidebar col s12 m12 l3">
-
-<div class="qt-widgets qt-sidebar-main qt-text-secondary row">
-<div class="col s12 m3 l12">
-<div class="qt-widget">
-<h5 class="qt-caption-small"><span>Description</span></h5> {{$event->description}}
-<hr class="qt-spacer-s">
-
-</div>
-</div>
+        </div>
 
 
 
-<div class="col s12 m3 l12">
-    <div class="qt-widget">
-        <h5 class="qt-caption-small"><span>Newest Events</span></h5>
-            <ul class="qt-widget-upcoming">
-            @foreach($events as $event1)
-                <li class="qt-card-s paper">
-                    <h5>
-                        <a href="{{route('showClient.event', ['event' => $event1->id])}}">{{$event1 -> name}}</a>
-                    </h5>
-                    <p>
-                        {{$event1 -> date}}
-                    </p>
-                    <img src="/storage/images/{{$event1 -> poster}}" alt="Show cover" width="200" height="110" class="right">
-                </li>
-                @endforeach
-            </ul>
+
+        <div class="qt-sidebar col s12 m12 l3">
+
+            <div class="qt-widgets qt-sidebar-main qt-text-secondary row ">
+                <div class="col s12 m3 l12 ">
+
+                    <h5 class="qt-caption-small"><span>Place</span></h5>
+
+
+                    <div id="map" style="height:300px; width:275px;"></div>
+                    <hr class="qt-spacer-s">
+                </div>
+                
+
+
+                <div class="col s12 m3 l12 ">
+                    <div class="qt-widget ">
+                            <h5 class="qt-caption-small block5"><span>Newest Events</span></h5>
+                            <ul class="qt-widget-upcoming">
+                                @foreach($events as $event1)
+                                <li class="qt-card-s paper">
+                                    <h5>
+                                        <a href="{{route('showClient.event', ['event' => $event1->id])}}">{{$event1 -> name}}</a>
+                                    </h5>
+                                    <p>
+                        
+                                        {{ \Carbon\Carbon::parse($event1 -> date)->format('d M Y')}}
+                                    </p>
+                                    <img src="/storage/images/{{$event1 -> poster}}" alt="Show cover"  class="right imn">
+                                </li>
+                                @endforeach
+                            </ul>
+                    </div>
+                </div>
+
+
     </div>
-</div>
-
-
-</div>
 
 </div>
 </div>
 </div>
-
 
 
 <div class="qt-footer-bottom qt-content-primary-dark">
@@ -476,6 +593,49 @@
     });
 });
 </script>
+<script>
+function myFunction() {
+    var dots = document.getElementById("dots");
+    var moreText = document.getElementById("more");
+    var btnText = document.getElementById("myBtn");
+
+    if (dots.style.display === "none") {
+        dots.style.display = "inline";
+        btnText.innerHTML = "Read more";
+        moreText.style.display = "none";
+    } else {
+        dots.style.display = "none";
+        btnText.innerHTML = "Read less";
+        moreText.style.display = "inline";
+    }
+}
+
+</script>
+@if($event->latitude && $event->longitude)
+
+<script>
+    // Initialize and add the map
+function initMap() {
+  // The location of Uluru
+ 
+ // var i='{{$event->name}} ';
+ // var j=' {{$event->categorie}} ';
+ //function longitude(){    var i=10.8113;     return(i);}
+ // const uluru = { lat: i, lng: j  };
+  var latLng = new google.maps.LatLng('{{ $event->latitude }}', '{{ $event->longitude }}');
+  // The map, centered at Uluru
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 17,
+    center: latLng,
+  });
+  // The marker, positioned at Uluru
+  const marker = new google.maps.Marker({
+    position: latLng,
+    map: map,
+  });
+}
+</script>
+@endif
 </body>
 
 </html>

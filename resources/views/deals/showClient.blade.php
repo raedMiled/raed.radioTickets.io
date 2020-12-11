@@ -79,6 +79,7 @@
         .qt-btn-secondary{
             margin-left:30px
         }
+        
        
     </style>
 
@@ -330,9 +331,9 @@
 </div>
 </div>
 
-<div class="qt-sidebar col s12 m12 l3">
+<div class="qt-sidebar col s12 m12 l3 ">
 
-<div class="qt-widgets qt-sidebar-main qt-text-secondary row">
+<div class="qt-widgets qt-sidebar-main qt-text-secondary row" width="200" height="10">
 <div class="col s12 m3 l12">
 <div class="qt-widget">
 <h5 class="qt-caption-small"><span>Description</span></h5> {{$deal->description}}

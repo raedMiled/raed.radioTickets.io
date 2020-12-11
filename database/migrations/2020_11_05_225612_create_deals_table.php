@@ -26,6 +26,8 @@ class CreateDealsTable extends Migration
             $table->BigInteger('places');
             $table->text('description');
             $table->string('address');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')

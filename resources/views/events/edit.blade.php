@@ -30,6 +30,12 @@
 
     <!--<title>{{ config('app.name', 'Laravel') }}</title>-->
 
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCK196L3Y8Pnjsq4QG6dPohNM4TemTSEZU&callback=initAutocomplete&libraries=places&v=weekly&region=TN"
+      defer
+    ></script>
+
     <!-- Scripts -->
     <script src="{{ asset('/resources/js/app.js') }}" defer></script>
 
@@ -289,11 +295,20 @@ Update my event
         
         <div class="row">
             <div class="input-field col s12">
-            <input  name="address" type="text" class="@error('address') alert-danger @enderror" value="{{$event->address}}">
-                <label for="name" >ADDRESS OF THE EVENT</label>
+            <!--<input  name="address" type="text" class="@error('address') alert-danger @enderror" value="{{$event->address}}">
+                <label for="address" >ADDRESS OF THE EVENT</label>
                 @error('address') 
                     <p class="alert alert-danger">{{$errors->first('address')}}</p> 
-                @enderror
+                @enderror -->
+                <h5>ADDRESS OF THE EVENT</h5>
+                @error('address') 
+                    <p class="alert alert-danger">{{$errors->first('address')}}</p> 
+                @enderror 
+            <input placeholder="ADDRESS OF THE EVENT" id="pac-input"  name="address" type="text" class="@error('address') alert-danger @enderror" value="{{$event->address}}">
+            <!--<input type="text" id="address-input" name="address_address" class="form-control map-input">-->
+            <input type="hidden" name="latitude" id="address-latitude" value="{{$event->latitude}}" />
+            <input type="hidden" name="longitude" id="address-longitude" value="{{$event->longitude}}" />
+            <div id="map" style="height:500px; width:712px;"></div>
             </div>
         </div>
         <hr class="qt-spacer-s">
@@ -455,6 +470,94 @@ Update my event
 <script src="/components/popup/popup.js"></script>
 
 <script src="/js/qt-main.js"></script>
+<script>
+    
+    
+
+    // This example adds a search box to a map, using the Google Place Autocomplete
+// feature. People can enter geographical searches. The search box will return a
+// pick list containing a mix of places and predicted search terms.
+// This example requires the Places library. Include the libraries=places
+// parameter when you first load the API. For example:
+// <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
+function initAutocomplete() {
+    var latLng = new google.maps.LatLng('{{ $event->latitude }}', '{{ $event->longitude }}');
+  const map = new google.maps.Map(document.getElementById("map"), {
+    center: latLng,
+    zoom: 13,
+    mapTypeId: "roadmap",
+  });
+  
+  // Create the search box and link it to the UI element.
+  const input = document.getElementById("pac-input");
+  const searchBox = new google.maps.places.SearchBox(input);
+  
+  map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener("bounds_changed", () => {
+    searchBox.setBounds(map.getBounds());
+  });
+  let markers = [];
+  // Listen for the event fired when the user selects a prediction and retrieve
+  // more details for that place.
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+    // Clear out the old markers.
+    markers.forEach((marker) => {
+      marker.setMap(null);
+      
+    });
+    markers = [];
+    // For each place, get the icon, name and location.
+    const bounds = new google.maps.LatLngBounds();
+    places.forEach((place) => {
+        
+      if (!place.geometry) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+      const icon = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25),
+      };
+      lat = place.geometry.location.lat();
+      lng = place.geometry.location.lng();
+      document.getElementById('address-latitude').value = lat;
+      document.getElementById('address-longitude').value = lng;
+      // Create a marker for each place.
+      markers.push(
+        new google.maps.Marker({
+          map,
+          icon,
+          title: place.name,
+          position: place.geometry.location,
+          
+        })
+      );
+
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+    map.fitBounds(bounds);
+  });
+  
+
+     
+  
+}
+    </script>
+ 
 </body>
 
 </html>

@@ -45,9 +45,97 @@
             height: 150px;
             margin-left:100px
         }
-        .qt-input-l {
+        .qt-input-l,.qt-input-m {
             color: black;
         }
+        .top{
+            margin-top:-30px
+        }
+        .add{
+            margin-left: 10px;
+            font-weight: bold;
+
+        }
+        .hgt{
+            height: 100%;            
+        }
+        .ctg{
+            
+            font-weight: bold;
+
+
+        }
+        .tndd
+        {
+            margin-top:-10px;
+        }
+        .edt{
+            
+            color: #f50057; 
+            font-weight: bold;
+            font-size:1.4em;
+            
+        }
+        option,select{
+            font-size: 1rem;
+            color:#454955;
+            margin: absolute;
+           
+        }
+        .searchBar{
+            min-width: 87%;
+            max-width: 87%;
+            margin:auto;
+        }
+        .imgsb{
+            margin-top: 12px;
+        }
+        
+        .sec{
+            min-height:49px;
+            max-height:49px;
+            margin-left: -80%;
+            margin-top: 6px;
+        }
+        .sel1{
+            margin-left: -50%;
+            
+        }
+        .sel2{
+            margin-left: -60%;
+        }
+        .crd{
+            min-height:50px;
+            max-height:50px;
+            margin-left: -50%;
+            margin-top: 5px;
+        }
+        .lct{
+            min-height:48px;
+            max-height:48px;
+            margin-left: -109%;
+            margin-top: 6px;
+            background-color: rgba(255,255,255,.9);
+            pointer-events: none;
+        }
+        .ctgr{
+            min-height:48px;
+            max-height:48px;
+            margin-left: -85%;
+            margin-top: 6px;
+            background-color: rgba(255,255,255,.9);
+            pointer-events: none;
+
+        }
+        .lis{
+            min-height:50px;
+            max-height:50px;
+            margin-left: -60%;
+            margin-top: 5px;
+        }
+
+        
+        
     </style>
 
 </head>
@@ -192,31 +280,162 @@
         </form>
 </div>
 </div>
-<div class="qt-slickslider-container">
-<div class="qt-slickslider qt-slickslider-single qt-text-shadow qt-black-bg" data-variablewidth="true" data-arrows="true" data-dots="true" data-infinite="true" data-centermode="true" data-pauseonhover="true" data-autoplay="true" data-arrowsmobile="false" data-centermodemobile="true" data-dotsmobile="true" data-variablewidthmobile="true">
+<div class="qt-slickslider-container ">
+<div class="row">
+<div class="qt-slickslider qt-slickslider-multiple qt-text-shadow qt-black-bg" data-slidestoshow="3" data-variablewidth="false" data-arrows="false" data-dots="false" data-infinite="true" data-centermode="true" data-pauseonhover="true" data-autoplay="true" data-arrowsmobile="true" data-centermodemobile="true" data-dotsmobile="false" data-slidestoshowmobile="1" data-variablewidthmobile="true" data-infinitemobile="false">
+<!--<div class="qt-slickslider qt-slickslider-single qt-text-shadow qt-black-bg" data-variablewidth="true" data-arrows="true" data-dots="true" data-infinite="true" data-centermode="true" data-pauseonhover="true" data-autoplay="true" data-arrowsmobile="false" data-centermodemobile="true" data-dotsmobile="true" data-variablewidthmobile="true">
+    -->
+    @foreach($eventss as $event1)
+        <div class="qt-item">
+
+            <div class="qt-part-archive-item qt-vertical">
+                <div class="qt-item-header">
+                    <div class="qt-header-top">
+                        
+                    <div class="evt">
+                            <ul class="qt-tags cctg">
+                                <li><a  href="/home/event " class="ctg">event</a></li>
+                            </ul>                        
+                        </div>
+                       
+                        <div class="qt-feedback">
+                            <p class="edt ">{{ \Carbon\Carbon::parse($event1->date)->format('d M Y')}}</p>
+                        </div>
+                       
+                       
+                    </div>
+                    <div class="qt-header-mid qt-vc">
+                        <div class="qt-vi">
+                            <h3 class="qt-title">
+                                <a href="{{route('showClient.event', ['event' => $event1->id])}}" class="qt-text-shadow">
+                                    {{$event1->name}}
+                                </a>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="qt-header-bottom">
+                    <a href="{{route('showClient.event', ['event' => $event1->id])}}" class="qt-btn qt-btn-primary qt-readmore"><i class="dripicons-plus"></i></a>
+                                                <div class="qt-header">
+                                                    <p class="add">{{$event1->address}}</p>
+                                                </div>
+                        <a href="{{route('showClient.event', ['event' => $event1->id])}}" class="qt-btn qt-btn-primary qt-readmore"><i class="dripicons-align-justify"></i></a>
+                    </div>
+                    <div class="qt-header-bg" data-bgimage="/storage/images/{{$event1 -> poster}}">
+                        <img src="/storage/images/{{$event1 -> poster}}" alt="Featured image" width="690" height="302">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @endforeach
+
+        
 
 
-<div class="qt-pageheader qt-content-primary qt-section">
-<div class="qt-container">
-<h1 class="qt-caption qt-spacer-s">
-Events
-</h1>
-</div>
-<div class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg">
-<img src="/imagestemplate/full-1600-700/unsplash-01-1600-530.jpg" alt="Featured image" width="1600" height="530">
 </div>
 </div>
 </div>
          
 
-<hr class="qt-spacer-s"> 
+<hr class="qt-spacer-m"> 
                 
+<div id="qtsearchbar" class="qt-searchbar qt-content-primary searchBar">
+    <div class="qt-expandable-inner">
+    
+        <form method="POST" action="{{ route('search.event') }}" class="qt-inline-form">
+            @csrf
+            
+            <table>
+                <tr>
+                    
+                    <td>
+                        <h3 class="qt-caption-med" ><span style="background-color: #454955;">events</span></h3>
+                    </td>
+                    <td >
+                        <input placeholder="Search" value="" id="searchtex" type="text" class="validate qt-input-m" name="q">
+                    </td>
+                    <td style="width:6%;">
+                        <button type="submit" value="" class="qt-btn qt-btn-s qt-btn-primary waves-effect waves-light sec">
+                            <img src="/imagestemplate/icons8-search-24.png" >
+                        </button>                
+                    </td>
+                    <td style="width:6%">
+                        <a href="#!" class="qt-btn qt-btn-s ctgr">
+                            <img src="/imagestemplate/icons8-category-24.png" class="imgsb">
+                        </a>                
+                    </td>
+                    <td style="width: 150px;">
+                        <div class="validate qt-input-l ">   
+                            <select name="c"  size="1"class="sel1">
+                                <option value="" hidden="hidden">Categorie</option>
+                                <option value="party">party</option>
+                                <option value="courses" >courses</option>
+                                <option value="theater" >theater</option>
+                                <option value="cinema" >cinema</option>
+                                <option value="concert">concert</option>
+                                <option value="tournament" >tournament</option>
+                                <option value="exhibition" >exhibition</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td style="width:6%">
+                        <a href="#!" class="qt-btn qt-btn-s lct">
+                            <img src="/imagestemplate/icons8-location-24.png" class="imgsb">
+                        </a>                
+                    </td>
+                    
+                    <td style="width: 150px;">
+                        <div class="validate qt-input-l">   
+                            <select name="l"  size="1"class="sel2">
+                                <option value="" hidden="hidden">City</option>
+                                <option value="Ariana">Ariana</option>
+                                <option value="Beja" >Beja</option>
+                                <option value="Ben Arous" >Ben Arous</option>
+                                <option value="Bizerte" >Bizerte</option>
+                                <option value="Gabes">Gabes</option>
+                                <option value="Gafsa" >Gafsa</option>
+                                <option value="Jendouba" >Jendouba</option>
+                                <option value="Kairouan">Kairouan</option>
+                                <option value="Kasserine" >Kasserine</option>
+                                <option value="Kebili" >Kebili</option>
+                                <option value="Kef" >Kef</option>
+                                <option value="Mahdia">Mahdia</option>
+                                <option value="Manouba" >Manouba</option>
+                                <option value="Medenine" >Medenine</option>
+                                <option value="Monastir">Monastir</option>
+                                <option value="Nabeul" >Nabeul</option>
+                                <option value="Sfax" >Sfax</option>
+                                <option value="Sidi Bouzid" >Sidi Bouzid</option>
+                                <option value="Siliana">Siliana</option>
+                                <option value="Sousse" >Sousse</option>
+                                <option value="Tataouine" >Tataouine</option>
+                                <option value="Tozeur">Tozeur</option>
+                                <option value="Tunis" >Tunis</option>
+                                <option value="Zaghouan" >Zaghouan</option>
+                            </select>
+                        </div>
+                    </td>
+                    <td style="width:6%">
+                        <a href="#!" data-expandable="#" class="qt-btn qt-btn-s qt-btn-primary waves-effect waves-light crd "id="myBtn1">
+                            <img src="/imagestemplate/icons8-grid-view-24.png" class="imgsb">
+                        </a>                
+                    </td>
+                    <td style="width:6%">
+                        <a href="#!" data-expandable="#" class="qt-btn qt-btn-s qt-btn-primary waves-effect waves-light lis"id="myBtn2">
+                            <img src="/imagestemplate/icons8-list-24.png" class="imgsb">
+                        </a>                
+                    </td> 
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
                 
 
                        
                    
                     
-                        <div class="qt-container qt-vertical-padding-m qt-archive-events">
+                        <div class="qt-container qt-vertical-padding-m qt-archive-events" id="dots">
                             
 
                             @foreach($events as $event)
@@ -228,10 +447,10 @@ Events
                                                 <div class="col s12 m2">
                                                     <h4 class="qt-date ">
                                                             <span class="qt-month">
-                                                                {{$event -> time}}
+                                                                {{ \Carbon\Carbon::parse($event->time)->format('h:i')}}
                                                             </span>
                                                             <span class="day">
-                                                                {{$event -> date}}
+                                                                {{ \Carbon\Carbon::parse($event->date)->format('d M Y')}}
                                                             </span>
                                                     </h4>
                                                 </div>
@@ -258,8 +477,54 @@ Events
                             </div>
                             @endforeach
                         </div>
-                            
-                           
+                       
+                        
+
+                        <div class="qt-container qt-vertical-padding-l  qt-archive-team" id="more">
+                            <div class="row">
+                            @foreach($events as $event)
+
+
+                                <div class="col s12 m6 l4 ">
+                                    <div class="qt-part-archive-item qt-item-chart ">
+                                        <div class="qt-item-header">
+                                            <div class="qt-header-top">
+                                                <div class="evt">
+                                                    <ul class="qt-tags cctg">
+                                                        <li><a href="{{route('showClient.event', ['event' => $event->id])}}" class="ctg">{{$event->categorie}}</a></li>
+                                                    </ul>
+                                                </div>
+                                                <div class="qt-feedback">
+                                                    <p class="edt ">{{ \Carbon\Carbon::parse($event->date)->format('d M Y')}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="qt-header-mid qt-vc">
+                                               
+                                            </div>
+                                            <div class="qt-header-bottom">
+                                                <a href="{{route('showClient.event', ['event' => $event->id])}}" class="qt-btn qt-btn-primary qt-readmore"><i class="dripicons-plus"></i></a>
+                                                <div class="qt-header">
+                                                    <p class="add">{{$event->address}}</p>
+                                                </div>
+                                            </div>
+                                            <div class="qt-header-bg" data-bgimage="/storage/images/{{$event -> poster}}">
+                                                <img src="/storage/images/{{$event -> poster}}" alt="Featured image" width="690" height="690">
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="qt-item-content-s qt-card">
+                                                <h4 class="qt-ellipsis-2 qt-t">
+                                                    <a href="{{route('showClient.event', ['event' => $event->id])}}">{{$event -> name}}</a>
+                                                </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                        </div>
+
+                        {{$events->links()}}
+                
                             
                       
              
@@ -314,6 +579,44 @@ Events
 
 
 </div>
+
+<script>
+/*function myFunction() {
+    var dots = document.getElementById("dots");
+    var moreText = document.getElementById("more");
+    var btnText = document.getElementById("myBtn");
+
+    if (dots.display === "none") {
+        dots.display = "inline";
+        btnText.innerHTML = "Read more";
+        moreText.display = "none";
+    } else {
+        dots.display = "none";
+        btnText.innerHTML = "Read less";
+        moreText.display = "inline";
+    }
+}*/
+var button1 = document.getElementById('myBtn1'); // Assumes element with id='button'
+var button2 = document.getElementById('myBtn2');
+var div2 = document.getElementById('more');
+var div1 = document.getElementById('dots');
+div1.style.display = 'none';    
+button1.onclick = function() {
+    if (div1.style.display !== 'none' ) {
+        div1.style.display = 'none';
+        div2.style.display = 'block';
+    }
+    
+};
+
+button2.onclick = function() {
+   if (div2.style.display !== 'none') {
+        div2.style.display = 'none';
+        div1.style.display = 'block';
+    }
+};
+
+</script>
 
 <script src="/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 <script src="/js/jquery.js"></script>

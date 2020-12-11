@@ -85,7 +85,7 @@ Route::post('/home/{deal}/reserveDealClient' ,'DealsController@storeReserveClien
 
 
 
-Route::get('/home/search', 'SearchController@show')->middleware('verified');
+//->middleware('verified');
 Route::post('/home/search', 'SearchController@search')->name('search.event')->middleware('verified');
 
 Route::get('/searchGuest', 'SearchController@show');
@@ -111,3 +111,9 @@ Route::post('/searchGuest', 'SearchController@searchGuest')->name('searchGuest')
 /*Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');*/
+Route::middleware(['verified'])->group(function () {
+    Route::middleware(['check-subscription'])->group(function () {
+
+    });
+    Route::get('/home/search', 'SearchController@show');
+});

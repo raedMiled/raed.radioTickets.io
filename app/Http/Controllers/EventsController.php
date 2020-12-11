@@ -19,114 +19,129 @@ use Illuminate\Support\Facades\Notification;
 
 use Illuminate\Support\Facades\Mail;
 
+
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class EventsController extends Controller
 {
 
 
-    public function index(){
+    public function index()
+    {
         $event = Event::latest("updated_at")->get();
-    
-       
-    return view('events.index', [
-        'events' => $event
-    ]);
+
+
+        return view('events.index', [
+            'events' => $event
+        ]);
     }
-    public function list($id){
+    public function list($id)
+    {
         $event = Event::find($id);
-        $reservation = Reservation::where('event_id',$event->id)->latest()->get();
-        
-        
+        $reservation = Reservation::where('event_id', $event->id)->latest()->get();
+
+
         return view('events.showReservations', [
             'event' => $event,
             'reservations' => $reservation
         ]);
-
     }
-    
-    public function indexAlll(){
-        
-        $user = User::whereNotNull('stripe_id')->latest()->get();
-        
+
+    public function indexAlll()
+    {
+
+        $event = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->get();
+        $event1 = Event::where('approve', '1')->where('places', '>', '0')->latest()->take(2)->get();
+        $deal = Deal::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->get();
+        $deal1 = deal::where('approve', '1')->where('places', '>', '0')->latest()->take(2)->get();
+
+
+
         return view('welcome', [
-            'users' => $user
-        ]);
+            'events' => $event,
+            'eventss' => $event1,
+            'deals' => $deal,
+            'dealss' => $deal1,
 
+        ]);
     }
-    public function indexAll(){
-        $event = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
+    public function indexAll()
+    {
+        $event = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->get();
         return view('eventPage', [
             'events' => $event
         ]);
     }
-    public function indexHome(){
-        $event = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
-        $deal = Deal::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
+    public function indexHome()
+    {
+        $event = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->get();
+        $deal = Deal::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->get();
         return view('homePage', [
             'events' => $event,
             'deals' => $deal
         ]);
     }
-    public function indexPage(){
-        $event = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
+    public function indexPage()
+    {
+        $event = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->paginate(3);
+        $event1 = Event::where('approve', '1')->where('places', '>', '0')->latest()->take(4)->get();
+
         return view('event', [
-            'events' => $event
+            'events' => $event,
+            'eventss' => $event1
         ]);
     }
-    public function create(){
-        
-        
+    public function create()
+    {
+
+
         return view('events.create');
-
-
     }
-   
-    public function indexReserve($id){
+
+    public function indexReserve($id)
+    {
         $event = Event::find($id);
         return view('reserveEvent', [
             'event' => $event
         ]);
-
     }
-    public function storeReserve($id){
+    public function storeReserve($id)
+    {
         $random = Str::random(10);
         $event = Event::find($id);
-       request()->validate(['email' => 'required|email']);
+        request()->validate(['email' => 'required|email']);
 
-       Mail::to(request('email'))
-            ->send(new EventTicket($event,$random));
+        Mail::to(request('email'))
+            ->send(new EventTicket($event, $random));
 
-     
 
-            return back()
-            ->with('message','email sent');
 
-        
-        
-
+        return back()
+            ->with('message', 'email sent');
     }
 
-    public function indexReserveClient($id){
+    public function indexReserveClient($id)
+    {
         $event = Event::find($id);
         return view('reserveEventClient', [
             'event' => $event
         ]);
-
     }
-    public function storeReserveClient($id){
+    public function storeReserveClient($id)
+    {
         $reservation = new Reservation();
         $random = Str::random(10);
         $event2 = Event::find($id)->reservation();
         $event = Event::find($id);
         //request()->validate(['email' => 'required|email']);
-       // $reservation->event_id = auth()->user()->event()->id();
-       request()->validate(['email' => 'required|email']);
-       $reservation->email = request('email');
-       //
-       $event2->save($reservation);
-      //$reservation->save();
-      /* $validateAtributes = request()->validate([
+        // $reservation->event_id = auth()->user()->event()->id();
+        request()->validate(['email' => 'required|email']);
+        $reservation->email = request('email');
+        //
+        $event2->save($reservation);
+        //$reservation->save();
+        /* $validateAtributes = request()->validate([
             
         'email' => 'required|email'
     ]);
@@ -135,23 +150,23 @@ class EventsController extends Controller
     
     Reservation::create($validateAtributes);*/
 
-       Mail::to(request('email'))
-            ->send(new EventTicket($event,$random));
+        Mail::to(request('email'))
+            ->send(new EventTicket($event, $random));
 
-            $event = Event::find($id)->decrement('places');
+        $event = Event::find($id)->decrement('places');
 
-            return back()
-            ->with('message','email sent');
-
+        return back()
+            ->with('message', 'email sent');
     }
 
-    
-    
 
-    public function store(Request $request){
-        
-        
-        
+
+
+    public function store(Request $request)
+    {
+
+
+
         /*$validateAtributes = request()->validate([
             
             'name' => 'required',
@@ -164,47 +179,50 @@ class EventsController extends Controller
         
         Event::create($validateAtributes);
         $req->file('poster')->store('public');*/
-        if($request->hasFile('poster')){
-            $filenamewithext=$request->file('poster')->getClientOriginalName();
-            $filename= pathinfo($filenamewithext,PATHINFO_FILENAME);
-            $extension=$request->file('poster')->getClientOriginalExtension();
-            $filenametostore=$filename.'_'.time().'.'.$extension;
-            $path=$request->file('poster')->storeAs('public/images',$filenametostore);
-    
-        }else{
-            $filenametostore='noimage.jpg';
+        if ($request->hasFile('poster')) {
+            $filenamewithext = $request->file('poster')->getClientOriginalName();
+            $filename = pathinfo($filenamewithext, PATHINFO_FILENAME);
+            $extension = $request->file('poster')->getClientOriginalExtension();
+            $filenametostore = $filename . '_' . time() . '.' . $extension;
+            $path = $request->file('poster')->storeAs('public/images', $filenametostore);
+        } else {
+            $filenametostore = 'unsplash-01-1600-530.jpg';
         }
-        
+
 
         $event = new Event();
 
         request()->validate([
-            
+
             'name' => 'required',
             'time' => 'required',
             'date' => 'required|after:yesterday',
-            'poster' => 'required',
+
             'categorie' => 'required',
             'places' => 'required|numeric|min:1',
             'description' => 'required',
-            'address' => 'required'
+            'address' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required'
         ]);
-        
+
 
         $event->name = request('name');
         $event->time = request('time');
         $event->date = request('date');
-        $event->poster=$filenametostore;
+        $event->poster = $filenametostore;
         //$event->poster = request('poster');
         $event->categorie = request('categorie');
         $event->places = request('places');
         $event->description = request('description');
         $event->address = request('address');
+        $event->latitude = request('latitude');
+        $event->longitude = request('longitude');
 
 
         //$req->file('poster')->store('public');
         auth()->user()->event()->save($event);
-        
+
         return redirect('/home/events');
     }
     /*public function imageUpload(request $req){
@@ -227,105 +245,106 @@ class EventsController extends Controller
          
      }*/
 
-     public function edit($id){
-        
+    public function edit($id)
+    {
+
         $event = Event::find($id);
         return view('events.edit', [
             'event' => $event
         ]);
-
-
     }
-    
-    public function update($id,Request $request){
+
+    public function update($id, Request $request)
+    {
         $event1 = Event::latest()->take(3)->get();
         $event = Event::find($id);
 
-        if($request->hasFile('poster')){
-            $filenamewithext=$request->file('poster')->getClientOriginalName();
-            $filename= pathinfo($filenamewithext,PATHINFO_FILENAME);
-            $extension=$request->file('poster')->getClientOriginalExtension();
-            $filenametostore=$filename.'_'.time().'.'.$extension;
-            $path=$request->file('poster')->storeAs('public/images',$filenametostore);
-    
-        }else{
-            $filenametostore=$event->poster;
+        if ($request->hasFile('poster')) {
+            $filenamewithext = $request->file('poster')->getClientOriginalName();
+            $filename = pathinfo($filenamewithext, PATHINFO_FILENAME);
+            $extension = $request->file('poster')->getClientOriginalExtension();
+            $filenametostore = $filename . '_' . time() . '.' . $extension;
+            $path = $request->file('poster')->storeAs('public/images', $filenametostore);
+        } else {
+            $filenametostore = $event->poster;
         }
 
         request()->validate([
-            
+
             'name' => 'required',
             'time' => 'required',
-            
+
             'date' => 'required|after:yesterday',
-            
+
             'categorie' => 'required',
             'places' => 'required|numeric|min:1',
             'description' => 'required',
-            'address' => 'required'
+            'address' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required'
         ]);
-        
+
 
         $event->name = request('name');
         $event->time = request('time');
 
         $event->date = request('date');
-        $event->poster=$filenametostore;
+        $event->poster = $filenametostore;
         $event->categorie = request('categorie');
         $event->places = request('places');
         $event->description = request('description');
         $event->address = request('address');
+        $event->latitude = request('latitude');
+        $event->longitude = request('longitude');
+        
+        
 
 
 
         $event->save();
-        
+
         return view('events.showClient', [
             'event' => $event,
             'events' => $event1
         ]);
-
-
     }
 
     public function delete($id)
     {
-        $event= Event::find($id);
+        $event = Event::find($id);
         $event->delete();
-       
+
         return redirect('/home');
     }
     public function approve($id)
     {
-        $event= Event::find($id);
+        $event = Event::find($id);
         $event->approve = true;
         $event->save();
-       
+
         return redirect('/home');
     }
 
-    public function show($id){
-        $event1 = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->take(3)->get();
+    public function show($id)
+    {
+        $event1 = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->take(3)->get();
         $event = Event::find($id);
         return view('events.show', [
             'event' => $event,
             'events' => $event1
         ]);
-
-
     }
 
-    public function showClient($id){
-        $event1 = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->take(3)->get();
+    public function showClient($id)
+    {
+        $event1 = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->take(3)->get();
         $event = Event::find($id);
         return view('events.showClient', [
             'event' => $event,
             'events' => $event1
         ]);
-
-
     }
-   /* public function reserve($id){
+    /* public function reserve($id){
 
         $event = Event::find($id);
         return view('events.reserve', [
@@ -339,7 +358,4 @@ class EventsController extends Controller
         Notification::send($event,new eventReserved());
         return back();
     }*/
-
-
-
 }

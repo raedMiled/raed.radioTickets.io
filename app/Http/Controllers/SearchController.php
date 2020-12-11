@@ -10,10 +10,14 @@ class SearchController extends Controller
 {
     public function search(Request $request){
         $q =  $request->q;
+        $c = $request->c;
+        $l = $request->l;
         
         $event = Event::where('approve','1')->where ( 'name', 'LIKE', '%' . $q . '%' )
-                            ->orWhere ( 'categorie', 'LIKE', '%' . $q . '%' )
+                            ->where('categorie','LIKE',$c)
+                            ->where('address','LIKE','%' . $l . '%')
                             ->orWhere ( 'date', 'LIKE', '%' . $q . '%' )
+                            ->orWhere ( 'categorie', 'LIKE', '%' . $q . '%' )
                             ->orWhere ( 'address', 'LIKE', '%' . $q . '%' )->latest()->get ();
         $deal = Deal::where('approve','1')->where ( 'name', 'LIKE', '%' . $q . '%' )
                             ->orWhere ( 'categorie', 'LIKE', '%' . $q . '%' )
