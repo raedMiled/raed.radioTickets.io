@@ -57,7 +57,10 @@ class DealsController extends Controller
             'discount' => 'required',
             'places' => 'required|numeric|min:1',
             'description' => 'required',
-            'address' => 'required'
+            'address' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'giftCertif' => 'required'
         ]);
         
 
@@ -70,6 +73,9 @@ class DealsController extends Controller
         $deal->places = request('places');
         $deal->description = request('description');
         $deal->address = request('address');
+        $deal->latitude = request('latitude');
+        $deal->longitude = request('longitude');
+        $deal->giftCertif = request('giftCertif');
 
 
         auth()->user()->deal()->save($deal);
@@ -131,7 +137,10 @@ class DealsController extends Controller
             'discount' => 'required',
             'places' => 'required|numeric|min:1',
             'description' => 'required',
-            'address' => 'required'
+            'address' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'giftCertif' => 'required'
         ]);
         
 
@@ -145,7 +154,9 @@ class DealsController extends Controller
         $deal->places = request('places');
         $deal->description = request('description');
         $deal->address = request('address');
-
+        $deal->latitude = request('latitude');
+        $deal->longitude = request('longitude');
+        $deal->giftCertif = request('giftCertif');
 
 
         $deal->save();
@@ -205,9 +216,11 @@ class DealsController extends Controller
 
     }
     public function indexPage(){
-        $deal = Deal::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
+        $deal = Deal::where('approve','1')->where('places','>','0')->latest("updated_at")->paginate(3);
+        $deal1 = Deal::where('approve','1')->where('places','>','0')->latest()->take(4)->get();
         return view('deal', [
-            'deals' => $deal
+            'deals' => $deal,
+            'dealss' => $deal1
         ]);
     }
     public function index(){

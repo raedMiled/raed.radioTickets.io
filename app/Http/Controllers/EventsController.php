@@ -6,8 +6,12 @@ use App\Event;
 use App\Deal;
 use App\Reservation;
 use App\User;
+use App\Music;
+
 
 use App\Mail\EventTicket;
+
+use App\Mail\Contact;
 
 use App\Mail\TicketEvent;
 
@@ -52,10 +56,11 @@ class EventsController extends Controller
     {
 
         $event = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->get();
-        $event1 = Event::where('approve', '1')->where('places', '>', '0')->latest()->take(2)->get();
+        $event1 = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->take(2)->get();
         $deal = Deal::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->get();
-        $deal1 = deal::where('approve', '1')->where('places', '>', '0')->latest()->take(2)->get();
+        $deal1 = deal::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->take(2)->get();
 
+        $music = Music::latest()->get();
 
 
         return view('welcome', [
@@ -63,6 +68,8 @@ class EventsController extends Controller
             'eventss' => $event1,
             'deals' => $deal,
             'dealss' => $deal1,
+            'music' => $music
+
 
         ]);
     }
@@ -85,18 +92,18 @@ class EventsController extends Controller
     public function indexPage()
     {
         $event = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->paginate(3);
-        $event1 = Event::where('approve', '1')->where('places', '>', '0')->latest()->take(4)->get();
+        $event1 = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->take(4)->get();
 
         return view('event', [
             'events' => $event,
             'eventss' => $event1
         ]);
     }
-    public function create()
+    public function create(Event $event)
     {
+       
 
-
-        return view('events.create');
+        return view('events.create',compact('event'));
     }
 
     public function indexReserve($id)
@@ -120,7 +127,7 @@ class EventsController extends Controller
         return back()
             ->with('message', 'email sent');
     }
-
+    
     public function indexReserveClient($id)
     {
         $event = Event::find($id);
@@ -273,9 +280,7 @@ class EventsController extends Controller
 
             'name' => 'required',
             'time' => 'required',
-
             'date' => 'required|after:yesterday',
-
             'categorie' => 'required',
             'places' => 'required|numeric|min:1',
             'description' => 'required',

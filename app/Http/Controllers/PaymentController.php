@@ -35,7 +35,7 @@ class PaymentController extends Controller
         $user->newSubscription('main', $planId)->create($paymentMethod);
 
         $commerçant = Role::firstOrCreate(['name' => 'commerçant']);
-        $user->assignrole($commerçant);
+        $user->assignRole($commerçant);
 
         return response([
             'success_url'=> redirect()->intended('/home')->getTargetUrl(),

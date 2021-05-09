@@ -96,7 +96,7 @@
 <div class="qt-booking-form" data-100p-top="opacity:0;" data-80p-top="opacity:0;" data-30p-top="opacity:1;">                                       
 <ul class="tabs">                      
 <li class="tab col s4">
-<h5><a  class="active">FORGET PASSWORD</a></h5></li>
+<h5><a  class="active">RESET PASSWORD</a></h5></li>
 </ul>
 <div  class="row">
 
@@ -105,7 +105,7 @@
         <input type="hidden" name="token" value="{{ $token }}">
         <div class="row">
             <div class="input-field col s12">
-            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email">
+            <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" readonly>
                 <label for="email" >{{ __('E-Mail Address') }}</label>
                 @error('email')
                     <span class="invalid-feedback" role="alert">

@@ -16,7 +16,75 @@ return(self.hasClass(oChild,oClass));};this.findParent=function(o){if(!o||!o.par
 o=o.parentNode;if(o.nodeType===2){while(o&&o.parentNode&&o.parentNode.nodeType===2){o=o.parentNode;}}
 return o;};this.getStyle=function(o,sProp){try{if(o.currentStyle){return o.currentStyle[sProp];}else if(window.getComputedStyle){return document.defaultView.getComputedStyle(o,null).getPropertyValue(sProp);}}catch(e){}
 return null;};this.findXY=function(obj){var curleft=0,curtop=0;do{curleft+=obj.offsetLeft;curtop+=obj.offsetTop;}while(!!(obj=obj.offsetParent));return[curleft,curtop];};this.getMouseXY=function(e){e=e?e:window.event;if(isTouchDevice&&e.touches){e=e.touches[0];}
-if(e.pageX||e.pageY){return[e.pageX,e.pageY];}else if(e.clientX||e.clientY){return[e.clientX+self.getScrollLeft(),e.clientY+self.getScrollTop()];}};this.getScrollLeft=function(){return(document.body.scrollLeft+document.documentElement.scrollLeft);};this.getScrollTop=function(){return(document.body.scrollTop+document.documentElement.scrollTop);};this.events={play:function(){pl.removeClass(this._360data.oUIBox,this._360data.className);this._360data.className=pl.css.sPlaying;pl.addClass(this._360data.oUIBox,this._360data.className);self.fanOut(this);},stop:function(){pl.removeClass(this._360data.oUIBox,this._360data.className);this._360data.className='';self.fanIn(this);},pause:function(){pl.removeClass(this._360data.oUIBox,this._360data.className);this._360data.className=pl.css.sPaused;pl.addClass(this._360data.oUIBox,this._360data.className);},resume:function(){pl.removeClass(this._360data.oUIBox,this._360data.className);this._360data.className=pl.css.sPlaying;pl.addClass(this._360data.oUIBox,this._360data.className);},finish:function(){var nextLink;pl.removeClass(this._360data.oUIBox,this._360data.className);this._360data.className='';this._360data.didFinish=true;self.fanIn(this);if(pl.config.playNext){nextLink=(pl.indexByURL[this._360data.oLink.href]+1);if(nextLink<pl.links.length){pl.handleClick({'target':pl.links[nextLink]});}}},whileloading:function(){if(this.paused){self.updatePlaying.apply(this);}},whileplaying:function(){self.updatePlaying.apply(this);this._360data.fps++;},bufferchange:function(){if(this.isBuffering){pl.addClass(this._360data.oUIBox,pl.css.sBuffering);}else{pl.removeClass(this._360data.oUIBox,pl.css.sBuffering);}}};this.stopEvent=function(e){if(typeof e!=='undefined'&&typeof e.preventDefault!=='undefined'){e.preventDefault();}else if(typeof window.event!=='undefined'&&typeof window.event.returnValue!=='undefined'){window.event.returnValue=false;}
+    if(e.pageX||e.pageY){
+        return[e.pageX,e.pageY];
+    }
+    else if(e.clientX||e.clientY){
+        return[e.clientX+self.getScrollLeft(),e.clientY+self.getScrollTop()];
+    }};
+    this.getScrollLeft=function(){
+        return(document.body.scrollLeft+document.documentElement.scrollLeft);
+    };
+    this.getScrollTop=function(){
+        return(document.body.scrollTop+document.documentElement.scrollTop);
+    };
+    this.events={
+        play:function(){
+            pl.removeClass(this._360data.oUIBox,this._360data.className);
+            this._360data.className=pl.css.sPlaying;pl.addClass(this._360data.oUIBox,this._360data.className);
+            self.fanOut(this);
+        },
+        stop:function(){
+            pl.removeClass(this._360data.oUIBox,this._360data.className);
+            this._360data.className='';
+            self.fanIn(this);
+        },
+        pause:function(){
+            pl.removeClass(this._360data.oUIBox,this._360data.className);
+            this._360data.className=pl.css.sPaused;
+            pl.addClass(this._360data.oUIBox,this._360data.className);
+        },
+        resume:function(){
+            pl.removeClass(this._360data.oUIBox,this._360data.className);
+            this._360data.className=pl.css.sPlaying;pl.addClass(this._360data.oUIBox,this._360data.className);
+        },
+        finish:function(){
+            var nextLink;
+            pl.removeClass(this._360data.oUIBox,this._360data.className);
+            this._360data.className='';
+            this._360data.didFinish=true;
+            self.fanIn(this);
+            if(pl.config.playNext){
+                nextLink=(pl.indexByURL[this._360data.oLink.href]+1);
+                if(nextLink<pl.links.length){
+                    pl.handleClick({'target':pl.links[nextLink]});
+                }
+            }
+        },
+        whileloading:function(){
+            if(this.paused){
+                self.updatePlaying.apply(this);
+            }
+        },
+        whileplaying:function(){
+            self.updatePlaying.apply(this);this._360data.fps++;
+        },
+        bufferchange:function(){
+            if(this.isBuffering){
+                pl.addClass(this._360data.oUIBox,pl.css.sBuffering);
+            }
+            else{
+                pl.removeClass(this._360data.oUIBox,pl.css.sBuffering);
+            }
+        }
+    };
+    this.stopEvent=function(e){
+        if(typeof e!=='undefined'&&typeof e.preventDefault!=='undefined'){
+            e.preventDefault();
+        }
+        else if(typeof window.event!=='undefined'&&typeof window.event.returnValue!=='undefined'){
+            window.event.returnValue=false;
+        }
 return false;};this.getTheDamnLink=(isIE)?function(e){return(e&&e.target?e.target:window.event.srcElement);}:function(e){return e.target;};this.handleClick=function(e){if(e.button>1){return true;}
 var o=self.getTheDamnLink(e),canvasElements,sURL,soundURL,thisSound,oContainer,has_vis,diameter;if(o.nodeName.toLowerCase()!=='a'){o=self.isChildOfNode(o,'a');if(!o){return true;}}
 if(!self.isChildOfClass(o,'ui360')){return true;}
@@ -86,7 +154,7 @@ if(threeSixtyPlayer.config.usePeakData){soundManager.flash9Options.usePeakData=t
 if(threeSixtyPlayer.config.useWaveformData||threeSixtyPlayer.flash9Options.useEQData||threeSixtyPlayer.flash9Options.usePeakData){soundManager.preferFlash=true;}
 if(action==="destroy"){$.fn.destroyAll360Sounds();}
 if(undefined===targetContainer){targetContainer="body";};var url,actualplaying,player,target,smState=false,playtrack,firstloaded=false,qtTracktitle=$(targetContainer).find("#qtradiotitle"),qtradiosubtitle=$(targetContainer).find("#qtradiosubtitle"),playClass='dripicons-media-play',pauseClass="dripicons-media-pause",loadingClass="dripicons-media-play",trackextension='';function loadInPlayer(c,autoplay){console.log("\n ======== loadInPlayer init ==========");$.fn.destroyAll360Sounds();playtrack=c.attr("data-playtrack");if(playtrack===undefined){return;}
-mp3url=c.attr("data-playtrack").split("geo-sample").join("sample");soundManager.stopAll();var player=$('.qt-ui360');player.empty();var random=Math.floor(Math.random()*1000000);player.append('<a id="playerlink" href="'+mp3url+'?ver='+random+'"></a>');if(autoplay){console.log("Autoplay executing");threeSixtyPlayer.config.autoPlay=true;$(targetContainer).find("a.beingplayed").removeClass("beingplayed").find("i").removeClass(pauseClass).addClass(playClass);actualplaying=mp3url;c.addClass("beingplayed").find("i").removeClass(playClass).addClass(pauseClass);}else{$(targetContainer).find("a.beingplayed").removeClass("beingplayed").find("i").removeClass(pauseClass).addClass(playClass);threeSixtyPlayer.config.autoPlay=false;}
+mp3url=c.attr("data-playtrack").split("geo-sample").join("sample");soundManager.stopAll();var player=$('.qt-ui360');player.empty();var random=Math.floor(Math.random()*1000000);player.append('<a id="playerlink" href="'+mp3url+'?ver='+random+'"></a>');if(autoplay){console.log("Autoplay executing");threeSixtyPlayer.config.autoPlay=false;$(targetContainer).find("a.beingplayed").removeClass("beingplayed").find("i").removeClass(pauseClass).addClass(playClass);actualplaying=mp3url;c.addClass("beingplayed").find("i").removeClass(playClass).addClass(pauseClass);}else{$(targetContainer).find("a.beingplayed").removeClass("beingplayed").find("i").removeClass(pauseClass).addClass(playClass);threeSixtyPlayer.config.autoPlay=true;}
 var background=c.attr("data-background"),logo=c.attr("data-logo"),title=c.attr("data-title"),subtitle=c.attr("data-subtitle");qtTracktitle.html(title);qtradiosubtitle.html(subtitle);console.log("======================================>>>>>>> "+background);$("#playerimage").attr("data-bgimage",background).css({"background-image":"url("+background+")"});$("#playerimage img").attr("src",background);threeSixtyPlayer.init();return;};qtBody.off("click","a[data-playtrack]");qtBody.on("click","a[data-playtrack]",function(e){console.log("Click mp3 link");e.preventDefault();var c=$(this);if(c.hasClass("beingplayed")){loadInPlayer($(this),false);}else{loadInPlayer($(this),true);}
 var qtShoutcastFeedData=$("#qtShoutcastFeedData");var qtradiofeedHost=c.attr("data-host"),qtradiofeedPort=c.attr("data-port"),qtradiofeedChannel=c.attr("data-channel"),qrFeedStyle=qtShoutcastFeedData.attr("data-style");if(qtradiofeedChannel===''||qtradiofeedChannel===undefined){qtradiofeedChannel='1';}
 qtShoutcastFeedData.attr("data-host",qtradiofeedHost);qtShoutcastFeedData.attr("data-port",qtradiofeedPort);qtShoutcastFeedData.attr("data-channel",qtradiofeedChannel);$.SHOUTcast().stopStats();$.SHOUTcast().stopStats();$.SHOUTcast().stopStats();$.SHOUTcast({host:qtradiofeedHost,port:qtradiofeedPort,interval:5000,stream:qtradiofeedChannel,stats:function(){if(this.onAir()){var result=this.get('songtitle');var feedsplit=result.split(" - "),author=feedsplit[0],title=feedsplit[1];qtFeedPlayerTrack.html(title);qtFeedPlayerAuthor.html(author);}else{$.SHOUTcast().stopStats();qtFeedPlayerTrack.html("Info not available");qtFeedPlayerAuthor.html("This info is currently offline");}}}).startStats();$.SHOUTcast().stopStats();$.SHOUTcast({host:qtradiofeedHost,port:qtradiofeedPort,interval:5000,stream:qtradiofeedChannel,stats:function(){if(this.onAir()){var result=this.get('songtitle');var feedsplit=result.split(" - "),author=feedsplit[0],title=feedsplit[1];qtFeedPlayerTrack.html(title);qtFeedPlayerAuthor.html(author);}else{$.SHOUTcast().stopStats();qtFeedPlayerTrack.html("Info not available");qtFeedPlayerAuthor.html("This info is currently offline");}}}).startStats();if(qtradiofeedHost!=''){}else{console.log("qtradiofeedHost is empty");}

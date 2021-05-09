@@ -13,6 +13,10 @@ class SearchController extends Controller
         $c = $request->c;
         $l = $request->l;
         
+        $deal1 = deal::where('approve', '1')->where('places', '>', '0')->latest()->take(2)->get();
+        $event1 = Event::where('approve', '1')->where('places', '>', '0')->latest()->take(4)->get();
+
+        
         $event = Event::where('approve','1')->where ( 'name', 'LIKE', '%' . $q . '%' )
                             ->where('categorie','LIKE',$c)
                             ->where('address','LIKE','%' . $l . '%')
@@ -26,12 +30,16 @@ class SearchController extends Controller
         if (count ( $event ) > 0 || count ( $deal ) > 0 )
             return view ( 'events.search', [
                 'events' => $event,
-                'deals' => $deal
+                'deals' => $deal,
+                'eventss' => $event1,
+                'dealss' => $deal1,
             ] )->withDetails ( $event )->withDetails ( $deal )->withQuery ( $q );
         else
             return view ( 'events.search', [
                 'events' => $event,
-                'deals' => $deal
+                'deals' => $deal,
+                'eventss' => $event1,
+                'dealss' => $deal1,
             ] )->withMessage ( 'No matches for your search. Sorry!' );
     }
 

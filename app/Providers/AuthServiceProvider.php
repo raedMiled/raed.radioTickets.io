@@ -60,6 +60,10 @@ class AuthServiceProvider extends ServiceProvider
             return $reservation->user->is($user);
             
         });
+        Gate::define('show-edit-user',function(User $user,User $user1){
+            return  $user1->is($user);
+        });
+
        /* Gate::define(function($user,$ability){
             
             return $user->abilities()->contains($ability);

@@ -1,0 +1,1 @@
+annuler les commentaire dans les fichier mainlayout.blade.php et home.blade.php

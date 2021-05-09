@@ -27,12 +27,19 @@ class HomeController extends Controller
     public function index()
     {
 
-        $event = Event::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
-        $deal = Deal::where('approve','1')->where('places','>','0')->latest("updated_at")->get();
+        $event = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->get();
+        $event1 = Event::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->take(2)->get();
+        $deal = Deal::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->get();
+        $deal1 = deal::where('approve', '1')->where('places', '>', '0')->latest("updated_at")->take(4)->get();
+
+
 
         return view('home', [
             'events' => $event,
-            'deals' => $deal
+            'eventss' => $event1,
+            'deals' => $deal,
+            'dealss' => $deal1,
+
         ]);
     }
 }

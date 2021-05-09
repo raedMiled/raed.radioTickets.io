@@ -44,6 +44,10 @@ return [
     'exists' => 'The selected :attribute is invalid.',
     'file' => 'The :attribute must be a file.',
     'filled' => 'The :attribute field must have a value.',
+    'g-recaptcha-response' => [
+        'recaptcha' => 'reCAPTCHA does not think you are a human - only humans allowed.',
+        'required' => 'Please check the box to confirm you are a real person.'
+    ],
     'gt' => [
         'numeric' => 'The :attribute must be greater than :value.',
         'file' => 'The :attribute must be greater than :value kilobytes.',

@@ -1,309 +1,468 @@
 <!DOCTYPE html>
-<html class="no-js" lang="en">
-
+<html>
 <head>
+	<title>music player</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <style>
+          *{
+	margin: 0;
+	padding: 0;
+	font-family: Arial, Helvetica, sans-serif;
+}
+body{
+	height: 100vh;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.main{
+	position: relative;
+	height: 80%;
+	width: 80%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: linear-gradient(to right, #5D6D7E, #566573);
+}
+.main button{
+	padding: 10px 12px;
+	margin: 0 10px;
+}
+.main #logo{
+	position: absolute;
+	top: 10px;
+	left: 30px;
+	font-size: 25px;
+	color: #ccc;
+}
+.main #logo i{
+	margin-right: 15px;
+}
 
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title > Radio Tickets</title>
-<meta name="description" content="Radio station HTML template">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+/* left & right part */
+.right,.left{
+	position: relative;
+	height: 100%;
+	width: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
 
-<link href='/fonts/dripicons/webfont.css' rel='stylesheet' type='text/css'>
-<link href='/fonts/qticons/qticons.css' rel='stylesheet' type='text/css'>
+/* song image */
+.left img{
+	height: 300px;
+	width: 80%;
+	border-radius: 15px;
+	box-shadow: 1px 0px 20px 12px rgba(240,240,240,0.2);
+}
 
-<link href='/components/slick/slick.css' rel='stylesheet' type='text/css'>
+/* both range slider part */
+input[type="range"] {
+	-webkit-appearance: none;
+	width: 50%;
+	outline: none;
+	height: 2px;
+	margin: 0 15px;
+}
+input[type="range"]::-webkit-slider-thumb{
+	-webkit-appearance: none;
+	height: 20px;
+	width: 20px;
+	background: #FF8A65;
+	border-radius: 50%;
+	cursor: pointer;
+}
+.right input[type=range]{
+	width: 40%;
+}
 
-<link href='/components/swipebox/src/css/swipebox.min.css' rel='stylesheet' type='text/css'>
 
-<link rel="stylesheet" type="text/css" href="/components/countdown/css/jquery.classycountdown.css" />
 
-<link rel="stylesheet" type="text/css" href="/components/soundmanager/templates/qtradio-player/css/flashblock.css" />
-<link rel="stylesheet" type="text/css" href="/components/soundmanager/templates/qtradio-player/css/qt-360player-volume.css" />
+/* volume part */
+.left .volume{
+	position: absolute;
+	bottom: 10%;
+	left: 0;
+	width: 100%;
+	height: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: #fff;
+}
+.left .volume p{
+	font-size: 15px;
+}
+.left .volume i{
+	cursor: pointer;
+	padding: 8px 12px;
+	background: #FF8A65;
+}
+.left .volume i:hover{
+	background: rgba(245,245,245,0.1);
+}
+.volume #volume_show{
+	padding: 8px 12px;
+	margin: 0 5px 0 0;
+	background: rgba(245,245,245,0.1);
+}
 
-<link rel="stylesheet" href="/css/qt-main.css">
 
-<link rel="stylesheet" href="/css/qt-typography.css">
-    <link rel="shortcut icon" type="image/png" href="/imagestemplate/radio-logo-icon.png">
 
-    <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+/* right part */
+ .right .middle{
+ 	width: 100%;
+    display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.right .middle button{
+	border: none;
+	height: 70px;
+	width: 70px;
+	border-radius: 50%;	
+    display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	outline: none;
+	transition: 0.5s;
+	background: rgba(255,255,255,0.1);
+}
+.right #title{
+	position: absolute;
+	top: 60px;
+	left: 50%;
+	transform: translateX(-50%);
+	text-transform: capitalize;
+	color: #fff;
+	font-size: 35px;
+}
+.right #artist{
+	position: absolute;
+	top: 110px;
+	left: 50%;
+	transform: translateX(-50%);
+	text-transform: capitalize;
+	color: #fff;
+	font-size: 18px;
+}
+.right .duration{
+	position: absolute;
+	bottom: 20%;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	height: 20px;
+	margin-top: 40px;
+}
+.right .duration p{
+	color: #fff;
+	font-size: 15px;
+	margin-left: 20px;
+}
+.right #auto{
+	font-size: 18px;
+	cursor: pointer;
+	margin-top: 45px;
+	border: none;
+	padding: 10px 14px;
+	color: #fff;
+	background: rgba(255,255,255,0.2);
+	outline: none;
+	border-radius: 10px;
+}
+.right #auto i{
+	margin-left: 8px;
+}
+#play{
+	background: #FF8A65;
+}
+.right button:hover{
+	background: #FF8A65;
+}
+.right i:before{
+	color: #fff;
+	font-size: 20px;
+}
 
-    <!--<title>{{ config('app.name', 'Laravel') }}</title>-->
+.right .show_song_no{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  color: #fff;
+  border-radius: 5px;
+  background: rgba(255,255,255,0.2);
+}
+.right .show_song_no p:nth-child(2){
+	margin: 0 5px;
+}
 
-    <!-- Scripts -->
-    <script src="{{ asset('/resources/js/app.js') }}" defer></script>
-
-    <!-- Fonts
-    <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> -->
-
-    <!-- Styles
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
-    <style>
-        .pht {
-            height: 150px;
-            margin-left:100px
-        }
-        .qt-input-l {
-            color: black;
-        }
-    </style>
-
+      </style>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 
-<body data-spy="scroll" data-target=".fixed-top">
+<body>
 
-
-
-<nav class="qt-menubar nav-wrapper qt-content-primary ">
-
-<ul class="qt-desktopmenu hide-on-xl-and-down">
-<li class="qt-logo-link"><a href="/" class="brand-logo qt-logo-text">RADIO  <span>TICKETS</span></a></li>
-<li><a href="/eventPage">Users</a>
-<li><a href="/eventPage">Events</a>
-<li><a href="/dealPage">Deals</a>
-</li>
-
-
-    <li class="right"><a  data-expandable="#qtsearchbar" class="qt-btn qt-btn-l qt-scrolltop"><i class="icon dripicons-search"></i></a></li>
-    <li class="right"><a  class="button-playlistswitch" data-activates="channelslist"><i class="icon dripicons-media-play"></i> Listen</a></li>
-    @guest
-           
-        @if (Route::has('register'))
-            <li class="right"><a href="/register" class="button"> Register Now</a></li>
-            <li class="right"><a href="/login" class="button" > Login</a></li> 
-        @endif
-        @else
-            <li class="right">
-                <a >{{ Auth::user()->name }}</a>
-                <ul>
-                    <li><a href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                    
-                </ul>
-            </li>
-    @endguest
+  <div class="main">
+  	<p id="logo"><i class="fa fa-music"></i>Music</p>
     
-</ul>
-<ul class="qt-desktopmenu hide-on-xl-only ">
-<li><a href="#" data-activates="qt-mobile-menu" class="button-collapse qt-menu-switch qt-btn qt-btn-primary qt-btn-m"><i class="dripicons-menu"></i></a></li>
-<li><a href="/" class="brand-logo qt-logo-text">Radio Tickets</a></li>
-</ul>
+    <!--- left part --->
+     <div class="left">
 
-</nav>
+      <!--- song img --->
+      <img id="track_image">
+         <div class="volume">
+            <p id="volume_show">90</p>
+            <i class="fa fa-volume-up" aria-hidden="true" onclick="mute_sound()" id="volume_icon"></i>
+            <input type="range" min="0" max="100" value="90" onchange="volume_change()" id="volume">  
+         </div>
 
-<div id="qt-mobile-menu" class="side-nav qt-content-primary">
-<ul class=" qt-side-nav">
-<li><a href="/">Home</a></li>
-<li ><a href="/eventPage">Users</a>
-</li>
-<li ><a href="/eventPage">Events</a>
-</li>
-<li ><a href="/dealPage">Deals</a>
-</li>
-</ul>
-</div>
+     </div>
+ 
 
+     <!--- right part --->
+  	 <div class="right">
 
-<ul class="qt-mobile-toolbar qt-content-primary-dark qt-content-aside hide-on-large-only">
-<li><a href="#!" data-expandable="#qtsearchbar" class="qt-scrolltop"><i class="icon dripicons-search"></i></a></li>
-<li><a href="#!" class="button-playlistswitch" data-activates="channelslist"><i class="icon dripicons-media-play"></i></a></li>
-@guest
-       
-        <li ><a href="/login" class="button" > Login</a></li> 
-        @if (Route::has('register'))
-            <li ><a href="/register" class="button"> Register Now</a></li>
-            
-        @endif
-        @else
-           
-                    <li><a href="{{ route('logout') }}"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                    </li>
-                    
-                
-    @endguest
-</ul>
+        <div class="show_song_no">
+          <p id="present">1</p>
+          <p>/</p>
+          <p id="total">5</p>
+        </div>
 
-<div id="qtsearchbar" class="qt-searchbar qt-content-primary qt-expandable">
-<div class="qt-expandable-inner">
-<form method="POST" action="{{ route('searchGuest') }}" class="qt-inline-form">
-            @csrf
-            <div class="row qt-nopadding">
-                <div class="col s12 m8 l9">
-                    <input placeholder="Search : name, date, categorie, address" value="" id="searchtex" type="text" class="validate qt-input-l" name="q">
-                </div>
-                <div class="col s12 m3 l2">
-                    <button type="submit" value="" class="qt-btn qt-btn-primary qt-btn-l qt-fullwidth">
-                        Search
-                    </button>
-                </div>
-                <div class="col s12 m1 l1">
-                    <a href="#!" class="qt-btn qt-btn-l qt-btn-secondary qt-fullwidth aligncenter" data-expandable="#qtsearchbar"><i class="dripicons-cross"></i></a>
-                </div>
-            </div>
-        </form>
-</div>
-</div>
+       <!--- song title & artist name --->
+      <p id="title">title.mp3</p>
+      <p id="artist">Artist name</p>
 
-<div class="qt-container qt-vertical-padding-l">
-<div class="row">
-<div class="col s12 m8 push-m2">             
-                
+      <!--- middle part --->
+  	 	<div class="middle">
+  	       <button onclick="previous_song()" id="pre"><i class="fa fa-step-backward" aria-hidden="true"></i></button>
+      	   <button onclick="justplay()" id="play"><i class="fa fa-play" aria-hidden="true"></i></button>
+  	       <button onclick="next_song()" id="next"><i class="fa fa-step-forward" aria-hidden="true"></i></button>
+  	   </div>
 
-<div class="qt-vertical-padding-l qt-content-primary-dark qt-section">
-<div class="qt-container qt-negative">
-<h3 class="qt-caption-med"><span>admin dashboard</span></h3>
-<ul class="collapsible qt-chart-tracklist qt-spacer-m" data-collapsible="accordion">
-
-<li class="qt-part-chart qt-chart-track qt-negative qt-card-s">
-<div class="qt-chart-table collapsible-header qt-content-primary">
-
-<div class="qt-titles">
-<h3 class="qt-ellipsis qt-t">users</h3>
-</div>
-</div>
-<div class="collapsible-body qt-paper">
-<p>
-Lorem ipsum dolor sit amet.
-</p>
-</div>
-</li>
+       <!--- song duration part --->
+        <div class="duration">
+           <input type="range" min="0" max="100" value="0" id="duration_slider" onchange="change_duration()">
+        </div>
+           <button id="auto" onclick="autoplay_switch()">Auto play <i class="fa fa-circle-o-notch" aria-hidden="true"></i></button>
+  	</div>
 
 
-<li class="qt-part-chart qt-chart-track qt-negative qt-card-s">
-<div class="qt-chart-table collapsible-header qt-content-primary">
-
-<div class="qt-titles">
-<h3 class="qt-ellipsis qt-t">events</h3>
-</div>
-</div>
-<div class="collapsible-body qt-paper">
-<p>
-Lorem ipsum dolor sit amet.
-</p>
-</div>
-</li>
-
-
-<li class="qt-part-chart qt-chart-track qt-negative qt-card-s">
-<div class="qt-chart-table collapsible-header qt-content-primary">
-
-<div class="qt-titles">
-<h3 class="qt-ellipsis qt-t">deals</h3>
-</div>
-</div>
-<div class="collapsible-body qt-paper">
-<p>
-Lorem ipsum dolor sit amet.
-</p>
-</div>
-</li>
-
-</ul>
-
-</div>
-
-</div>
-
-
-</div>
-</div>
-</div>
-                           
-                            
-                      
-             
-
-
-
-
-
-
-
+  </div>
    
-   
-                      
+  <!--- Add javascript file --->
+  <script>
+      let previous = document.querySelector('#pre');
+let play = document.querySelector('#play');
+let next = document.querySelector('#next');
+let title = document.querySelector('#title');
+let recent_volume= document.querySelector('#volume');
+let volume_show = document.querySelector('#volume_show');
+let slider = document.querySelector('#duration_slider');
+let show_duration = document.querySelector('#show_duration');
+let track_image = document.querySelector('#track_image');
+let auto_play = document.querySelector('#auto');
+let present = document.querySelector('#present');
+let total = document.querySelector('#total');
+let artist = document.querySelector('#artist');
 
 
 
-<div id="channelslist" class="side-nav qt-content-primary qt-right-sidebar">
-<a class="qt-btn qt-btn-secondary button-playlistswitch-close qt-close-sidebar-right" data-activates="channelslist"><i class="icon dripicons-cross"></i></a>
+let timer;
+let autoplay = 0;
 
-<div id="qtplayercontainer" data-playervolume="true" data-accentcolor="#dd0e34" data-accentcolordark="#ff0442" data-textcolor="#ffffff" data-soundmanagerurl="./components/soundmanager/swf/" class="qt-playercontainer qt-playervolume qt-clearfix qt-content-primary">
-<div class="qt-playercontainer-content qt-vertical-padding-m">
-<div class="qt-playercontainer-header">
-<h5 class="qt-text-shadow small">Now on</h5>
-<h3 id="qtradiotitle" class="qt-text-shadow">STATION 1 RADIO</h3>
+let index_no = 0;
+let Playing_song = false;
 
-</div>
-<div class="qt-playercontainer-musicplayer" id="qtmusicplayer">
-<div class="qt-musicplayer">
-<div class="ui360 ui360-vis qt-ui360">
-<a id="playerlink" href="http://freshly-ground.com/data/audio/sm2/Adrian Glynn - Blue Belle Lament.mp3"></a>
-</div>
-</div>
-</div>
-
-</div>
-<div id="playerimage" class="qt-header-bg" data-bgimage="/imagestemplate/full-1600-700/unsplash-44.jpg">
-<img src="/imagestemplate/full-1600-700/unsplash-44.jpg" alt="Featured image" width="690" height="302">
-</div>
-</div>
-
-<div id="qtShoutcastFeedData" class="hidden" data-style="" data-channel="1" data-host="173.192.105.231" data-port="3540"></div>
+//create a audio Element
+let track = document.createElement('audio');
 
 
+//All songs list
+let All_song = [
+   {
+     name: "first song",
+     path: "music/song1.mp3",
+     img: "img/img1.jpg",
+     singer: "1"
+   },
+   {
+     name: "second song",
+     path: "music/song2.mp3",
+     img: "img/img2.jpg",
+     singer: "2"
+   },
+   {
+     name: "third song",
+     path: "music/song3.mp3",
+     img: "img/img3.jpg",
+     singer: "3"
+   },
+   {
+     name: "fourth song",
+     path: "music/song4.mp3",
+     img: "img/img4.jpg",
+     singer: "4"
+   },
+   {
+     name: "fifth song",
+     path: "music/song5.mp3",
+     img: "img/img5.jpg",
+     singer: "5"
+   }
+];
 
 
-</div>
-
-<script src="/js/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-<script src="/js/jquery.js"></script>
-<script src="/js/jquery-migrate.min.js"></script>
-
-<script src="/js/materializecss/bin/materialize.min.js"></script>
-
-<script src="/js/jquerycookie.js"></script>
-
-<script src="/components/slick/slick.min.js"></script>
-<script src="/components/skrollr/skrollr.min.js"></script>
-
-<script src="/components/swipebox/lib/ios-orientationchange-fix.js"></script>
-<script src="/components/swipebox/src/js/jquery.swipebox.min.js"></script>
-
-<script src="/components/countdown/js/jquery.knob.js"></script>
-<script src="/components/countdown/js/jquery.throttle.js"></script>
-<script src="/components/countdown/js/jquery.classycountdown.min.js"></script>
-
-<!--[if IE]><script src="/components/soundmanager/script/excanvas.js"></script><![endif]-->
-<script src="/components/soundmanager/script/berniecode-animator.js"></script>
-<script src="/components/soundmanager/script/soundmanager2-nodebug.js"></script>
-<script src="/components/soundmanager/script/shoutcast.js"></script>
-<script src="/components/soundmanager/templates/qtradio-player/script/qt-360player-volumecontroller.js"></script>
-
-<script src="/components/popup/popup.js"></script>
-
-<script src="/js/qt-main.js"></script>
-</body>
-
-</html>
+// All functions
 
 
+// function load the track
+function load_track(index_no){
+	clearInterval(timer);
+	reset_slider();
 
-    
+	track.src = All_song[index_no].path;
+	title.innerHTML = All_song[index_no].name;	
+	track_image.src = All_song[index_no].img;
+    artist.innerHTML = All_song[index_no].singer;
+    track.load();
+
+	timer = setInterval(range_slider ,1000);
+	total.innerHTML = All_song.length;
+	present.innerHTML = index_no + 1;
+}
+
+load_track(index_no);
+
+
+//mute sound function
+function mute_sound(){
+	track.volume = 0;
+	volume.value = 0;
+	volume_show.innerHTML = 0;
+}
+
+
+// checking.. the song is playing or not
+ function justplay(){
+ 	if(Playing_song==false){
+ 		playsong();
+
+ 	}else{
+ 		pausesong();
+ 	}
+ }
+
+
+// reset song slider
+ function reset_slider(){
+ 	slider.value = 0;
+ }
+
+// play song
+function playsong(){
+  track.play();
+  Playing_song = true;
+  play.innerHTML = '<i class="fa fa-pause" aria-hidden="true"></i>';
+}
+
+//pause song
+function pausesong(){
+	track.pause();
+	Playing_song = false;
+	play.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+}
+
+
+// next song
+function next_song(){
+	if(index_no < All_song.length - 1){
+		index_no += 1;
+		load_track(index_no);
+		playsong();
+	}else{
+		index_no = 0;
+		load_track(index_no);
+		playsong();
+
+	}
+}
+
+
+// previous song
+function previous_song(){
+	if(index_no > 0){
+		index_no -= 1;
+		load_track(index_no);
+		playsong();
+
+	}else{
+		index_no = All_song.length;
+		load_track(index_no);
+		playsong();
+	}
+}
+
+
+// change volume
+function volume_change(){
+	volume_show.innerHTML = recent_volume.value;
+	track.volume = recent_volume.value / 100;
+}
+
+// change slider position 
+function change_duration(){
+	slider_position = track.duration * (slider.value / 100);
+	track.currentTime = slider_position;
+}
+
+// autoplay function
+function autoplay_switch(){
+	if (autoplay==1){
+       autoplay = 0;
+       auto_play.style.background = "rgba(255,255,255,0.2)";
+	}else{
+       autoplay = 1;
+       auto_play.style.background = "#FF8A65";
+	}
+}
+
+
+function range_slider(){
+	let position = 0;
         
+        // update slider position
+		if(!isNaN(track.duration)){
+		   position = track.currentTime * (100 / track.duration);
+		   slider.value =  position;
+	      }
+
+       
+       // function will run when the song is over
+       if(track.ended){
+       	 play.innerHTML = '<i class="fa fa-play" aria-hidden="true"></i>';
+           if(autoplay==1){
+		       index_no += 1;
+		       load_track(index_no);
+		       playsong();
+           }
+	    }
+     }
+  </script>
+
+</body>
+</html>
